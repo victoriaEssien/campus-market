@@ -1,0 +1,119 @@
+
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { validateEmail } from "../../utils/validators/emailValidator";
+import { validatePassword } from "../../utils/validators/passwordValidator"
+
+
+import EyeClosed from "../../assets/icons/eye-closed-icon.svg";
+import EyeOpen from "../../assets/icons/eye-open-icon.svg";
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    // const [loading, setLoading] = useState(false);
+
+    // State variables for error messages
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+
+    // Function to handle password visibility toggle
+    const handlePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        // Reset error messages
+        setEmailError('')
+        setPasswordError('')
+
+        // validate form fields
+        const emailValidationResult = validateEmail(email);
+        if (emailValidationResult) {
+            // Email is empty or invalid, set error message
+            setEmailError(emailValidationResult);
+            // Clear error message after 5 seconds
+            setTimeout(() => setEmailError(''), 5000);
+            return;
+        }
+
+        const passwordValidationResult = validatePassword(password);
+        if (passwordValidationResult) {
+            // Email is empty or invalid, set error message
+            setPasswordError(passwordValidationResult);
+            // Clear error message after 5 seconds
+            setTimeout(() => setPasswordError(''), 5000);
+            return;
+        }
+
+    }
+
+    return (
+        <div className='mb-8'>
+            <div className='container mx-auto'>
+                <h1 className="text-2xl font-semibold mb-4">Campus Market</h1>
+            </div>
+
+            <div className="md:mx-auto mt-8">
+                <div className='mx-auto md:w-5/12'>
+                    <h1 className='font-os text-3xl md:text-4xl text-center text-black-600 font-bold leading-relaxed'>Welcome Back!</h1>
+                    <p className="font-os text-md text-black-400 text-center leading-relaxed mx-auto w-11/12 md:w-9/12 mt-2 md:mt-4">
+                        Log in to your account to access your profile, and explore the latest listings from your campus.
+                    </p>
+                    <div className="mt-8 md:mt-12 px-4 md:p-8 md:rounded-[20px] md:border border-lightgray-400 ">
+                        <form onSubmit={handleLogin}>
+                            <div className="mb-4">
+                                <label htmlFor="email" className="block font-os mb-2 text-black-600">
+                                    Email Address:
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="someone@example.com"
+                                    className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                />
+                                {emailError && <p className="font-os text-sm text-error-600 mt-2">{emailError}</p>}
+                            </div>
+                            <div className="relative mt-2 mb-6">
+                                <label htmlFor="password" className="block font-os mb-2 text-black-600">
+                                    Password:
+                                </label>
+                                <div className='flex items-center'>
+                                    <input type={showPassword ? 'text' : 'password'} name='password' id='password' className="font-os mx-auto w-full block rounded-lg border border-lightgray-500 px-4 py-3 text-base text-black-600 placeholder:text-black-100 outline-primary-100 '" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility}>{showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}</button>
+                                </div>
+                                {passwordError && <p className='text-sm text-error-600 mt-1'>{passwordError}</p>}
+                        
+                                <div className="w-fit">
+                                    <Link to='/reset-password'>
+                                    <p className="font-os font-medium text-accent-700 text-base mt-3 leading-relaxed">Forgot password?</p>
+                                    </Link>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                            <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
+                                Log In
+                            </button>
+                            <p className="mt-3 font-os text-center text-base text-black-600">
+                                Don&apos;t have an account? <Link to="/signup" className="text-accent-700 font-medium">Sign Up</Link>
+                            </p>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    );
+}
+
+export default Login;
