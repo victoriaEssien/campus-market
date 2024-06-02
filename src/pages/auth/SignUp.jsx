@@ -11,7 +11,7 @@ import EyeOpen from "../../assets/icons/eye-open-icon.svg";
 import MainNav from "../../components/MainNav";
 
 const SignUp = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -45,20 +45,20 @@ const SignUp = () => {
         setPhoneNumberError('');
         setPasswordError('');
         setSuccessMessage('');
-        setLoading(true)
+        setLoading(true);
 
         // Validate form fields
         if (!firstName) {
             setFirstNameError('Please enter your first name');
             setTimeout(() => setFirstNameError(''), 5000);
-            setLoading(false)
+            setLoading(false);
             return;
         }
 
         if (!lastName) {
             setLastNameError('Please enter your last name');
             setTimeout(() => setLastNameError(''), 5000);
-            setLoading(false)
+            setLoading(false);
             return;
         }
 
@@ -66,7 +66,7 @@ const SignUp = () => {
         if (emailValidationResult) {
             setEmailError(emailValidationResult);
             setTimeout(() => setEmailError(''), 5000);
-            setLoading(false)
+            setLoading(false);
             return;
         }
 
@@ -74,7 +74,7 @@ const SignUp = () => {
         if (phoneNumberValidationResult) {
             setPhoneNumberError(phoneNumberValidationResult);
             setTimeout(() => setPhoneNumberError(''), 5000);
-            setLoading(false)
+            setLoading(false);
             return;
         }
 
@@ -82,7 +82,7 @@ const SignUp = () => {
         if (passwordValidationResult) {
             setPasswordError(passwordValidationResult);
             setTimeout(() => setPasswordError(''), 5000);
-            setLoading(false)
+            setLoading(false);
             return;
         }
 
@@ -92,23 +92,35 @@ const SignUp = () => {
             lastname: lastName,
             phone: phoneNumber,
             email: email,
-            password: password
+            password: password,
+            link: "https://campus-market-test.vercel.app/login",
         };
 
         try {
-            const response = await axios.post("https://campus-market-api.onrender.com/user/new", signUpData);
+            const response = await axios.post("https://campus-market-api.onrender.com/user/new", signUpData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
             if (response.data && response.data.msg) {
-                console.log(response.data)
+                console.log(response.data);
                 setSuccessMessage(response.data.msg);
-                // Optionally, you can redirect the user to another page or clear the form
-                navigate('/login')
+                navigate('/login');
             }
         } catch (error) {
-            // Handle error appropriately
-            console.error("Error creating account:", error);
-            // You can set an error state here to display an error message to the user
+            if (error.response) {
+                // Server responded with a status other than 200 range
+                console.error("Server error:", error.response.data);
+            } else if (error.request) {
+                // Request was made but no response received
+                console.error("Network error:", error.request);
+            } else {
+                // Something else happened
+                console.error("Error:", error.message);
+            }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
@@ -213,7 +225,6 @@ const SignUp = () => {
 
             </div>
         </div>
-
     );
 };
 

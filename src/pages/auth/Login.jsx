@@ -57,10 +57,11 @@ const Login = () => {
                 password: password
             });
 
-            console.log(response.data);
-            if (response.data.token) {
+            
+            if (response.data && response.data.msg) {
                 // Store the token (you might want to use a more secure method in a real application)
                 // localStorage.setItem("token", response.data.token);
+                console.log(response.data);
                 navigate("/home");
             }
         } catch (error) {
