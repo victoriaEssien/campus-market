@@ -1,23 +1,26 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { validateEmail } from "../../utils/validators/emailValidator";
-import { validatePassword } from "../../utils/validators/passwordValidator"
-
+import { validatePassword } from "../../utils/validators/passwordValidator";
 
 import EyeClosed from "../../assets/icons/eye-closed-icon.svg";
 import EyeOpen from "../../assets/icons/eye-open-icon.svg";
+import MainNav from "../../components/MainNav";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // State variables for error messages
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+
+    const navigate = useNavigate();
 
     // Function to handle password visibility toggle
     const handlePasswordVisibility = () => {
@@ -28,35 +31,50 @@ const Login = () => {
         e.preventDefault();
 
         // Reset error messages
-        setEmailError('')
-        setPasswordError('')
+        setEmailError('');
+        setPasswordError('');
+        setGeneralError('');
 
-        // validate form fields
+        // Validate form fields
         const emailValidationResult = validateEmail(email);
         if (emailValidationResult) {
-            // Email is empty or invalid, set error message
             setEmailError(emailValidationResult);
-            // Clear error message after 5 seconds
             setTimeout(() => setEmailError(''), 5000);
             return;
         }
 
         const passwordValidationResult = validatePassword(password);
         if (passwordValidationResult) {
-            // Email is empty or invalid, set error message
             setPasswordError(passwordValidationResult);
-            // Clear error message after 5 seconds
             setTimeout(() => setPasswordError(''), 5000);
             return;
         }
 
-    }
+        setLoading(true);
+        try {
+            const response = await axios.post("https://campus-market-api.onrender.com/user/login", {
+                email: email,
+                password: password
+            });
+
+            console.log(response.data);
+            if (response.data.token) {
+                // Store the token (you might want to use a more secure method in a real application)
+                // localStorage.setItem("token", response.data.token);
+                navigate("/home");
+            }
+        } catch (error) {
+            console.error("Error logging in: ", error);
+            setGeneralError("Failed to log in. Please check your credentials and try again.");
+            setTimeout(() => setGeneralError(''), 5000);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className='mb-8'>
-            <div className='container mx-auto'>
-                <h1 className="text-2xl font-semibold mb-4">Campus Market</h1>
-            </div>
+            <MainNav />
 
             <div className="md:mx-auto mt-8">
                 <div className='mx-auto md:w-5/12'>
@@ -77,6 +95,7 @@ const Login = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="someone@example.com"
                                     className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                    disabled={loading}
                                 />
                                 {emailError && <p className="font-os text-sm text-error-600 mt-2">{emailError}</p>}
                             </div>
@@ -85,35 +104,42 @@ const Login = () => {
                                     Password:
                                 </label>
                                 <div className='flex items-center'>
-                                    <input type={showPassword ? 'text' : 'password'} name='password' id='password' className="font-os mx-auto w-full block rounded-lg border border-lightgray-500 px-4 py-3 text-base text-black-600 placeholder:text-black-100 outline-primary-100 '" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility}>{showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}</button>
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        name='password'
+                                        id='password'
+                                        className="font-os mx-auto w-full block rounded-lg border border-lightgray-500 px-4 py-3 text-base text-black-600 placeholder:text-black-100 outline-primary-100"
+                                        placeholder='Password'
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        disabled={loading}
+                                    />
+                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility} disabled={loading}>
+                                        {showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}
+                                    </button>
                                 </div>
                                 {passwordError && <p className='text-sm text-error-600 mt-1'>{passwordError}</p>}
-                        
                                 <div className="w-fit">
                                     <Link to='/reset-password'>
-                                    <p className="font-os font-medium text-accent-700 text-base mt-3 leading-relaxed">Forgot password?</p>
+                                        <p className="font-os font-medium text-accent-700 text-base mt-3 leading-relaxed">Forgot password?</p>
                                     </Link>
                                 </div>
                             </div>
-
+                            {generalError && <p className="text-center text-error-600">{generalError}</p>}
                             <div className="mt-8">
-                            <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
-                                Log In
-                            </button>
-                            <p className="mt-3 font-os text-center text-base text-black-600">
-                                Don&apos;t have an account? <Link to="/signup" className="text-accent-700 font-medium">Sign Up</Link>
-                            </p>
+                                <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg" disabled={loading}>
+                                    {loading ? "Logging In..." : "Log In"}
+                                </button>
+                                <p className="mt-3 font-os text-center text-base text-black-600">
+                                    Don&apos;t have an account? <Link to="/signup" className="text-accent-700 font-medium">Sign Up</Link>
+                                </p>
                             </div>
                         </form>
-
                     </div>
                 </div>
-
             </div>
         </div>
-
     );
-}
+};
 
 export default Login;
