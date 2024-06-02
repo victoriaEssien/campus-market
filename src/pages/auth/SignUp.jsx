@@ -1,30 +1,34 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // Add axios import
 
 import { validateEmail } from "../../utils/validators/emailValidator";
-import { validatePhoneNumber } from "../../utils/validators/phoneNumberValidator"
-import { validatePassword } from "../../utils/validators/passwordValidator"
+import { validatePhoneNumber } from "../../utils/validators/phoneNumberValidator";
+import { validatePassword } from "../../utils/validators/passwordValidator";
 
 import EyeClosed from "../../assets/icons/eye-closed-icon.svg";
 import EyeOpen from "../../assets/icons/eye-open-icon.svg";
+import MainNav from "../../components/MainNav";
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // State variables for error messages
-    const [firstNameError, setFirstNameError] = useState('')
-    const [lastNameError, setLastNameError] = useState('')
-    const [emailError, setEmailError] = useState('')
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
-    const [passwordError, setPasswordError] = useState('')
+    const [passwordError, setPasswordError] = useState('');
 
+    // State variable for success message
+    const [successMessage, setSuccessMessage] = useState('');
 
     // Function to handle password visibility toggle
     const handlePasswordVisibility = () => {
@@ -35,63 +39,86 @@ const SignUp = () => {
         e.preventDefault();
 
         // Reset error messages
-        setFirstNameError('')
-        setLastNameError('')
-        setEmailError('')
-        setPhoneNumberError('')
-        setPasswordError('')
+        setFirstNameError('');
+        setLastNameError('');
+        setEmailError('');
+        setPhoneNumberError('');
+        setPasswordError('');
+        setSuccessMessage('');
+        setLoading(true)
 
-        // validate form fields
+        // Validate form fields
         if (!firstName) {
             setFirstNameError('Please enter your first name');
-            // Clear error message after 5 seconds
-            setTimeout(() => setFirstNameError(''), 5000)
+            setTimeout(() => setFirstNameError(''), 5000);
+            setLoading(false)
             return;
         }
 
         if (!lastName) {
             setLastNameError('Please enter your last name');
-            // Clear error message after 5 seconds
-            setTimeout(() => setLastNameError(''), 5000)
+            setTimeout(() => setLastNameError(''), 5000);
+            setLoading(false)
             return;
         }
 
         const emailValidationResult = validateEmail(email);
         if (emailValidationResult) {
-            // Email is empty or invalid, set error message
             setEmailError(emailValidationResult);
-            // Clear error message after 5 seconds
             setTimeout(() => setEmailError(''), 5000);
+            setLoading(false)
             return;
         }
 
         const phoneNumberValidationResult = validatePhoneNumber(phoneNumber);
         if (phoneNumberValidationResult) {
-            // Email is empty or invalid, set error message
             setPhoneNumberError(phoneNumberValidationResult);
-            // Clear error message after 5 seconds
             setTimeout(() => setPhoneNumberError(''), 5000);
+            setLoading(false)
             return;
         }
 
         const passwordValidationResult = validatePassword(password);
         if (passwordValidationResult) {
-            // Email is empty or invalid, set error message
             setPasswordError(passwordValidationResult);
-            // Clear error message after 5 seconds
             setTimeout(() => setPasswordError(''), 5000);
+            setLoading(false)
             return;
         }
-    }
+
+        // Prepare data for API request
+        const signUpData = {
+            firstname: firstName,
+            lastname: lastName,
+            phone: phoneNumber,
+            email: email,
+            password: password
+        };
+
+        try {
+            const response = await axios.post("https://campus-market-api.onrender.com/user/new", signUpData);
+            if (response.data && response.data.msg) {
+                console.log(response.data)
+                setSuccessMessage(response.data.msg);
+                // Optionally, you can redirect the user to another page or clear the form
+                navigate('/login')
+            }
+        } catch (error) {
+            // Handle error appropriately
+            console.error("Error creating account:", error);
+            // You can set an error state here to display an error message to the user
+        } finally {
+            setLoading(false)
+        }
+    };
 
     return (
         <div className=''>
-            <div className='container mx-auto'>
-                <h1 className="text-2xl font-semibold mb-4">Campus Market</h1>
-            </div>
+            <MainNav />
 
             {firstNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-600 leading-6'>{firstNameError}</p></div>}
             {lastNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-600 leading-6'>{lastNameError}</p></div>}
+            {successMessage && <div className="bg-accent-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-accent-600 leading-6'>{successMessage}</p></div>}
 
             <div className="md:mx-auto my-8">
                 <div className='mx-auto md:w-5/12'>
@@ -101,7 +128,7 @@ const SignUp = () => {
                         trading hassle-free on campus.
                     </p>
                     <div className="mt-8 md:mt-12 px-4 md:p-8 md:rounded-[20px] md:border border-lightgray-400 ">
-                        <form onSubmit={handleSignUp}>
+                        <form method="POST" onSubmit={handleSignUp}>
                             <div className="mb-4">
                                 <label htmlFor="firstName" className="block mb-2 font-os text-black-600 ">
                                     First Name:
@@ -172,12 +199,12 @@ const SignUp = () => {
                             </div>
 
                             <div className="mt-8">
-                            <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
-                                Create Account
-                            </button>
-                            <p className="mt-3 font-os text-center text-base text-black-600">
-                                Already have an account? <Link to="/login" className="text-accent-700 font-medium">Log In</Link>
-                            </p>
+                                <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
+                                    {loading ? 'Just a minute...' : 'Create Account'}
+                                </button>
+                                <p className="mt-3 font-os text-center text-base text-black-600">
+                                    Already have an account? <Link to="/login" className="text-accent-700 font-medium">Log In</Link>
+                                </p>
                             </div>
                         </form>
 
