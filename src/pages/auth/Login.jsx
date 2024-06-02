@@ -74,7 +74,7 @@ const Login = () => {
     };
 
     return (
-        <div className='mb-8'>
+        <div className=''>
             <MainNav />
 
             <div className="md:mx-auto mt-8">

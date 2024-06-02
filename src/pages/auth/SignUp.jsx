@@ -106,7 +106,7 @@ const SignUp = () => {
             if (response.data && response.data.msg) {
                 console.log(response.data);
                 setSuccessMessage(response.data.msg);
-                navigate('/login');
+                navigate('/verify-email');
             }
         } catch (error) {
             if (error.response) {
