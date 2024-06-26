@@ -89,7 +89,7 @@ function AppNav() {
             <header className='inset-x-0 top-0 z-50'>
                 <nav className='flex items-center justify-between p-4 lg:px-12 border-b border-primary-50' aria-label='Global'>
                     <div className='flex lg:flex mr-8'>
-                        <Link to='/homepage' className='-m-1.5 p-1.5'>
+                        <Link to='/home' className='-m-1.5 p-1.5'>
                             <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
                         </Link>
                     </div>
@@ -144,7 +144,7 @@ function AppNav() {
                     <div className='fixed inset-0 z-50' />
                     <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white'>
                         <div className="flex items-center justify-between">
-                            <a href="#" className='-m-1.5 p-5'>
+                            <a href="/home" className='-m-1.5 p-5'>
                                 <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
                             </a>
                             <button type='button' className='-m-2.5 rounded-md p-7 text-black-700' onClick={() => setMobileMenuOpen(false)}>
