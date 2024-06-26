@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 // Default Avatar
-const defaultAvatar = 'https://beforeigosolutions.com/wp-content/uploads/2021/12/dummy-profile-pic-300x300-1.png';
+const defaultAvatar = 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg';
 
 function AppNav() {
     const navigation = [
@@ -89,7 +89,7 @@ function AppNav() {
             <header className='inset-x-0 top-0 z-50'>
                 <nav className='flex items-center justify-between p-4 lg:px-12 border-b border-primary-50' aria-label='Global'>
                     <div className='flex lg:flex mr-8'>
-                        <Link to='/homepage' className='-m-1.5 p-1.5'>
+                        <Link to='/home' className='-m-1.5 p-1.5'>
                             <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
                         </Link>
                     </div>
@@ -129,7 +129,7 @@ function AppNav() {
                                         aria-labelledby="user-menu"
                                     >
                                         <div className="py-1">
-                                            <Link to="#" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
+                                            <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
                                             <button type='button' onClick={handleLogout} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
                                                 Sign out
                                             </button>
@@ -144,7 +144,7 @@ function AppNav() {
                     <div className='fixed inset-0 z-50' />
                     <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white'>
                         <div className="flex items-center justify-between">
-                            <a href="#" className='-m-1.5 p-5'>
+                            <a href="home" className='-m-1.5 p-5'>
                                 <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
                             </a>
                             <button type='button' className='-m-2.5 rounded-md p-7 text-black-700' onClick={() => setMobileMenuOpen(false)}>
