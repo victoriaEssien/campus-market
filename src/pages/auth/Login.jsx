@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 import { validateEmail } from "../../utils/validators/emailValidator";
 import { validatePassword } from "../../utils/validators/passwordValidator";
@@ -57,11 +58,10 @@ const Login = () => {
                 password: password
             });
 
-            
-            if (response.data && response.data.msg) {
-                // Store the token (you might want to use a more secure method in a real application)
-                // localStorage.setItem("token", response.data.token);
-                console.log(response.data);
+            if (response.data && response.data.data && response.data.data.token) {
+                // Store the token in cookies
+                Cookies.set('token', response.data.data.token, { expires: 7 }); // Token will expire in 7 days
+                // console.log(response.data);
                 navigate("/home");
             }
         } catch (error) {
