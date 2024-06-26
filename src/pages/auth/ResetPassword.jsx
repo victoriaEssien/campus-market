@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { validateEmail } from "../../utils/validators/emailValidator";
 import { validatePassword } from "../../utils/validators/passwordValidator"
 
-
 import EyeClosed from "../../assets/icons/eye-closed-icon.svg";
 import EyeOpen from "../../assets/icons/eye-open-icon.svg";
+import MainNav from "../../components/MainNav";
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
@@ -37,10 +37,7 @@ const ResetPassword = () => {
 
     return (
         <div className='mb-8'>
-            <div className='container mx-auto'>
-                <h1 className="text-2xl font-semibold mb-4">Campus Market</h1>
-            </div>
-
+            <MainNav />
             <div className="md:mx-auto mt-8">
                 <div className='mx-auto md:w-5/12'>
                     <h1 className='font-os text-3xl md:text-4xl text-center text-black-600 font-bold leading-relaxed'>Forgot your Password?</h1>
