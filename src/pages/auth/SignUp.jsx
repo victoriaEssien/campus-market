@@ -215,7 +215,7 @@ const SignUp = () => {
                                     {loading ? 'Just a minute...' : 'Create Account'}
                                 </button>
                                 <p className="mt-3 font-os text-center text-base text-black-600">
-                                    Already have an account? <Link to="/login" className="text-accent-700 font-medium">Log In</Link>
+                                    Already have an account? <Link to="/login" className="text-secondary-700 font-medium">Log In</Link>
                                 </p>
                             </div>
                         </form>

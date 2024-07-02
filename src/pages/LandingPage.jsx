@@ -1,6 +1,6 @@
 
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
-import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, Profile } from "./index"
+import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems } from "./index"
 
 
 
@@ -21,7 +21,12 @@ function LandingPage() {
                     <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/home" element={<HomePage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/my-cart" element={<CartPage />} />
+                    <Route path="/saved" element={<SavedPage />} />
+                    <Route path="/description" element={<ProductDescription />} />
                     <Route path="/my-profile" element={<Profile />} />
+                    <Route path="/fashion-items" element={<FashionItems />} />
                 </Routes>
             </div>
         </Router>
