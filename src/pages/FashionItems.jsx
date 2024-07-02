@@ -14,49 +14,24 @@ import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
 
 
-const categories = [
-  { image: FashionCategory, name: "Fashion" },
-  { image: FoodCategory, name: "Groceries & Food" },
-  { image: HealthAndBeautyCategory, name: "Health & Beauty" },
-  { image: ServicesCategory, name: "Services" }
-];
-
 const featuredAds = [
   { image: ToteBag, name: "Ladies Canvas Tote Bag Cotton Cloth...", price: "₦6,600" },
-  { image: OilPerfume, name: "72 Hours Long Lasting Undiluted Oil P...", price: "₦5,000" },
   { image: Crocs, name: "Crocs Bad Bunny Crocs", price: "₦23,000" },
   { image: Shirt, name: "2 IN 1 Men's Fashion Short Sleeve T-shi...", price: "₦11,000" },
   { image: Shoe, name: "ADIDAS Core Sneakers Advantage Base", price: "₦6,600" },
   { image: Watch, name: "Mens Casual Classic Business Quartz C...", price: "₦9,900" },
-  { image: Socks, name: "5 Pairs Quality Cotton Ankle Socks - Wh...", price: "₦4,500" },
   { image: Necklace, name: "Butterfly Pendant Necklace Set - Doub...", price: "₦5,300" }
 ];
 
-function HomePage() {
+function FashionItems() {
   return (
     <div>
       <AppNav />
       <div className="mx-4 md:mx-14 mt-14">
-        {/* Categories section */}
-        <section>
-          <h2 className="font-os text-2xl text-black-600 font-semibold">Categories</h2>
-          <div className="flex overflow-x-auto space-x-5 md:grid md:grid-cols-5 md:space-x-0 mt-9">
-            {categories.map((category, index) => (
-              <Link key={index} to="/fashion-items">
-              <div className="w-fit">
-                <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] p-2 w-48">
-                  <img src={category.image} alt={category.name} className="" />
-                </div>
-                <p className="mt-4 text-center font-os font-medium text-black-500">{category.name}</p>
-              </div>
-              </Link>
-            ))}
-          </div>
-        </section>
 
-        {/* Featured Ads */}
+        {/* Fashion Items */}
         <section className="my-20">
-          <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
+          <h2 className="font-os text-2xl text-black-600 font-semibold">Fashion Top Deals</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
               <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
@@ -74,4 +49,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default FashionItems;
