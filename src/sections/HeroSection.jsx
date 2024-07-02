@@ -14,7 +14,7 @@ function HeroSection() {
         <MainNav />
         <div className='px-4 md:px-12 flex flex-col md:flex-row'>
             <div className=''>
-                <h1 className='text-4xl md:text-[54px] font-os font-bold text-gray-600 mt-4 md:mt-14 w-full md:w-[590px] leading-normal md:leading-snug'>Discover the <span className='text-accent-600'>best deals on your campus</span> in seconds!</h1>
+                <h1 className='text-4xl md:text-[54px] font-os font-bold text-gray-600 mt-4 md:mt-14 w-full md:w-[590px] leading-normal md:leading-snug'>Discover the <span className='text-secondary-600'>best deals on your campus</span> in seconds!</h1>
                 <p className='mt-6 md:mt-3 font-os font-normal w-full md:w-[516px] leading-relaxed text-lg text-gray-500'>Shop items from fellow students and enjoy hassle-free transactions. Find everything from accessories to gadgets, all within your university community.</p>
                 <div className='mt-8 md:mt-6'>
                 <Link to="/signup">
