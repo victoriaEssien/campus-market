@@ -101,14 +101,14 @@ function Profile() {
                                 {/* First Name */}
                                 <div className="">
                                     <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">First Name</label>
-                                    <input type="text" value={userFirstName} onChange={(e) => setUserFirstName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane Doe' />
+                                    <input type="text" value={userFirstName} onChange={(e) => setUserFirstName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane' />
                                     {firstNameError && <p className='text-sm text-red-500 mt-1'>{firstNameError}</p>}
                                 </div>
 
                                 {/* Last Name */}
                                 <div className="">
                                     <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">Last Name</label>
-                                    <input type="text" value={userLastName} onChange={(e) => setUserLastName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane Doe' />
+                                    <input type="text" value={userLastName} onChange={(e) => setUserLastName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Doe' />
                                     {lastNameError && <p className='text-sm text-red-500 mt-1'>{lastNameError}</p>}
                                 </div>
 
