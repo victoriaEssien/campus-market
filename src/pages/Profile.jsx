@@ -15,12 +15,14 @@ function Profile() {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [userId, setUserId] = useState('');
-    const [userName, setUserName] = useState('');
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [loading, setLoading] = useState(false)
 
     // State variables for error messages
-    const [fullNameError, setFullNameError] = useState('')
+    const [firstNameError, setFirstNameError] = useState('')
+    const [lastNameError, setLastNameError] = useState('')
     const [emailError, setEmailError] = useState('')
     const [currentPasswordError, setCurrentPasswordError] = useState('')
     const [newPasswordError, setNewPasswordError] = useState('')
@@ -28,6 +30,30 @@ function Profile() {
     const [successMessage, setSuccessMessage] = useState('')
     const [error, setError] = useState('')
 
+
+    useEffect(() => {
+        const token = Cookies.get('token'); // Assuming token is stored in cookies with the name 'token'
+        
+        if (token) {
+            axios.get("https://campus-market-api.onrender.com/profile/specific", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                const { firstname, lastname, email } = response.data;
+                setUserFirstName(firstname);
+                setUserLastName(lastname);
+                setUserEmail(email);
+            })
+            .catch(err => {
+                console.error(err);
+                setError("Failed to fetch user profile.");
+            });
+        } else {
+            setError("User is not authenticated.");
+        }
+    }, []);
 
 
     return (
@@ -53,26 +79,41 @@ function Profile() {
                     {/* Profile Picture */}
                     <div className="mt-12">
                         <p className="font-os text-black-600 leading-normal text-base">Profile Picture</p>
-                        <div className="w-fit flex items-center gap-x-8 mt-5">
+                        <div className="md:w-fit flex flex-col md:flex-row items-center gap-x-8 mt-5">
                             <img src="https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg" alt="User profile" className="h-20 w-20 rounded-full object-cover" />
-                            <label htmlFor="appLogo" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-lightgray-100 font-os text-base px-4 py-2.5 cursor-pointer">
-                                Change Photo
-                            </label>
-                            <input type="file" id="appLogo" accept="image/*" className="hidden" />
+
+                            <div className="flex flex-col md:flex-row gap-x-3 gap-y-3 mt-5 md:mt-0 w-full">
+                                <label htmlFor="userPhoto" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-center text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer">
+                                    Change Photo
+                                </label>
+                                <input type="file" id="userPhoto" accept="image/*" className="hidden" />
+
+                                <label htmlFor="removePhoto" className="rounded-lg bg-lightgray-600 text-center text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer">
+                                    Remove Photo
+                                </label>
+                                <input type="file" id="removePhoto" accept="image/*" className="hidden" />
+                            </div>
                         </div>
 
                         {/* Input fields */}
                         <form method="POST">
-                            <div className="flex flex-col md:flex-row gap-x-5 md:w-fit mt-10">
-                                {/* Name */}
+                            <div className="flex flex-col md:flex-row md:flex-wrap gap-x-5 gap-y-7 md:w-fit mt-10">
+                                {/* First Name */}
                                 <div className="">
-                                    <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">Name</label>
-                                    <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane Doe' />
-                                    {fullNameError && <p className='text-sm text-red-500 mt-1'>{fullNameError}</p>}
+                                    <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">First Name</label>
+                                    <input type="text" value={userFirstName} onChange={(e) => setUserFirstName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane Doe' />
+                                    {firstNameError && <p className='text-sm text-red-500 mt-1'>{firstNameError}</p>}
+                                </div>
+
+                                {/* Last Name */}
+                                <div className="">
+                                    <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">Last Name</label>
+                                    <input type="text" value={userLastName} onChange={(e) => setUserLastName(e.target.value)} className="font-os block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Jane Doe' />
+                                    {lastNameError && <p className='text-sm text-red-500 mt-1'>{lastNameError}</p>}
                                 </div>
 
                                 {/* Email Address */}
-                                <div className="mt-8 md:mt-0">
+                                <div className="md:mt-0">
                                     <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">Email Address</label>
                                     <input type="text" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} className="block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='jane.doe123@gmail.com' />
                                     {emailError && <p className='text-sm text-error-700 mt-1'>{emailError}</p>}   
