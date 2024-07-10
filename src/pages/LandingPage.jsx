@@ -1,5 +1,6 @@
 
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
+import ProtectedRoute from "../components/ProtectedRoute"
 import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems } from "./index"
 
 
@@ -20,13 +21,13 @@ function LandingPage() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="/my-cart" element={<CartPage />} />
-                    <Route path="/saved" element={<SavedPage />} />
-                    <Route path="/description" element={<ProductDescription />} />
-                    <Route path="/my-profile" element={<Profile />} />
-                    <Route path="/fashion-items" element={<FashionItems />} />
+                    <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+                    <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
+                    <Route path="/my-cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+                    <Route path="/saved" element={<ProtectedRoute><SavedPage /></ProtectedRoute>} />
+                    <Route path="/description" element={<ProtectedRoute><ProductDescription /></ProtectedRoute>} />
+                    <Route path="/my-profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                    <Route path="/fashion-items" element={<ProtectedRoute><FashionItems /></ProtectedRoute>} />
                 </Routes>
             </div>
         </Router>

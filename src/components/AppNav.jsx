@@ -1,6 +1,6 @@
 // Libraries
-import { useState, useEffect } from 'react';
-import { Dialog } from '@headlessui/react';
+import { useState, useEffect, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -24,6 +24,8 @@ function AppNav() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const toggleDropdown = () => {
         setDropdownOpen((prevOpen) => !prevOpen);
@@ -64,25 +66,19 @@ function AppNav() {
         }
     }, []);
 
-    const handleLogout = () => {
-        const token = Cookies.get('token');
-        if (token) {
-            axios.post('https://campus-market-api.onrender.com/user/logout', {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-                .then(response => {
-                    console.log('Successfully logged out:', response.data.msg);
-                    Cookies.remove('token');
-                    setUserInfo(null);
-                    navigate('/login'); // Redirect to login page after logout
-                })
-                .catch(error => {
-                    console.error('Error during logout: ', error);
-                });
-        }
-    };
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+      };
+    
+      const handleModalClose = () => {
+        setIsModalOpen(false);
+      };
+
+    // Handle Sign Out function
+    const handleSignOut = () => {
+        Cookies.remove('token');
+        navigate('/login')
+    }
 
 
     return (
@@ -160,7 +156,7 @@ function AppNav() {
                                     >
                                         <div className="py-1">
                                             <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
-                                            <button type='button' onClick={handleLogout} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
+                                            <button type='button' onClick={handleModalOpen} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
                                                 Sign out
                                             </button>
                                         </div>
@@ -218,7 +214,7 @@ function AppNav() {
                                                 >
                                                     <div className="py-1">
                                                         <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
-                                                        <button type='button' onClick={handleLogout} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
+                                                        <button type='button' onClick={handleModalOpen} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
                                                             Sign out
                                                         </button>
                                                     </div>
@@ -232,6 +228,70 @@ function AppNav() {
                     </Dialog.Panel>
                 </Dialog>
             </header>
+
+            {/* Modal */}
+            <Transition appear show={isModalOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-50" onClose={handleModalClose}>
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-black-1000 bg-opacity-25" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
+                        <Dialog.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
+                        <div className="flex justify-end">
+                            <button className="rounded-full p-1 hover:bg-gray-200" onClick={handleModalClose}>
+                            <XMarkIcon className="h-6 w-6 text-primary-500" />
+                            </button>
+                        </div>
+                        <Dialog.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
+                            Log out of Campus Market?
+                        </Dialog.Title>
+                        <div className="mt-3">
+                            <p className="text-[15px] w-11/12 md:w-10/12 text-black-400 leading-normal md:leading-relaxed">
+                            You can always log back in at any time.
+                            </p>
+                        </div>
+
+                        <div className="mt-10 flex flex-col gap-y-4 md:flex-row md:justify-end md:space-x-4">
+                            <button
+                            type="button"
+                            className="inline-flex justify-center rounded-md border border-primary-600 bg-lightgray-100 px-8 py-3 text-sm font-os font-medium text-primary-600"
+                            onClick={handleModalClose}
+                            >
+                            Cancel
+                            </button>
+                            <button
+                            type="button"
+                            className="inline-flex justify-center rounded-md bg-primary-600 px-8 py-3 text-sm font-os font-medium text-lightgray-100"
+                            onClick={handleSignOut}
+                            >
+                            Log Out
+                            </button>
+                        </div>
+                        </Dialog.Panel>
+                    </Transition.Child>
+                    </div>
+                </div>
+                </Dialog>
+            </Transition>
         </div>
     );
 }
