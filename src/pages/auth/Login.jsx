@@ -66,7 +66,7 @@ const Login = () => {
             }
         } catch (error) {
             console.error("Error logging in: ", error);
-            setGeneralError("Failed to log in. Please check your credentials and try again.");
+            setGeneralError("Failed to log in. Please check your credentials and try again :)");
             setTimeout(() => setGeneralError(''), 5000);
         } finally {
             setLoading(false);
@@ -84,6 +84,11 @@ const Login = () => {
                         Log in to your account to access your profile, and explore the latest listings from your campus.
                     </p>
                     <div className="mt-8 md:mt-12 px-4 md:p-8 md:rounded-[20px] md:border border-lightgray-400 ">
+                    {generalError && (
+                        <div className="text-center bg-error-100 mb-10 p-4 rounded-md">
+                            <p className="font-os font-medium text-error-700 leading-normal">{generalError}</p>
+                        </div>
+                    )}
                         <form onSubmit={handleLogin}>
                             <div className="mb-4">
                                 <label htmlFor="email" className="block font-os mb-2 text-black-600">
@@ -122,17 +127,17 @@ const Login = () => {
                                 {passwordError && <p className='text-sm text-error-600 mt-1'>{passwordError}</p>}
                                 <div className="w-fit">
                                     <Link to='/reset-password'>
-                                        <p className="font-os font-medium text-accent-700 text-base mt-3 leading-relaxed">Forgot password?</p>
+                                        <p className="font-os font-semibold text-secondary-700 text-base mt-3 leading-relaxed">Forgot password?</p>
                                     </Link>
                                 </div>
                             </div>
-                            {generalError && <p className="text-center text-error-600">{generalError}</p>}
+                            
                             <div className="mt-8">
-                                <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg" disabled={loading}>
+                                <button type="submit" className="bg-primary-700 hover:bg-primary-800 font-os font-semibold text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg" disabled={loading}>
                                     {loading ? "Logging In..." : "Log In"}
                                 </button>
                                 <p className="mt-3 font-os text-center text-base text-black-600">
-                                    Don&apos;t have an account? <Link to="/signup" className="text-secondary-700 font-medium">Sign Up</Link>
+                                    Don&apos;t have an account? <Link to="/signup" className="text-secondary-700 font-semibold">Sign Up</Link>
                                 </p>
                             </div>
                         </form>

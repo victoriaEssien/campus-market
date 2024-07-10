@@ -128,9 +128,9 @@ const SignUp = () => {
         <div className=''>
             <MainNav />
 
-            {firstNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-600 leading-6'>{firstNameError}</p></div>}
-            {lastNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-600 leading-6'>{lastNameError}</p></div>}
-            {successMessage && <div className="bg-accent-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-accent-600 leading-6'>{successMessage}</p></div>}
+            {firstNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-700 leading-6'>{firstNameError}</p></div>}
+            {lastNameError && <div className="hidden md:block bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-error-700 leading-6'>{lastNameError}</p></div>}
+            {successMessage && <div className="bg-success-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-os text-base text-success-700 leading-6'>{successMessage}</p></div>}
 
             <div className="md:mx-auto my-8">
                 <div className='mx-auto md:w-5/12'>
@@ -211,11 +211,11 @@ const SignUp = () => {
                             </div>
 
                             <div className="mt-8">
-                                <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-medium text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
+                                <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-semibold text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
                                     {loading ? 'Just a minute...' : 'Create Account'}
                                 </button>
                                 <p className="mt-3 font-os text-center text-base text-black-600">
-                                    Already have an account? <Link to="/login" className="text-secondary-700 font-medium">Log In</Link>
+                                    Already have an account? <Link to="/login" className="text-secondary-700 font-semibold">Log In</Link>
                                 </p>
                             </div>
                         </form>
