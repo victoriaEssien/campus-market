@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import EyeClosed from "../assets/icons/eye-closed-icon.svg";
 import EyeOpen from "../assets/icons/eye-open-icon.svg";
 import { validateEmail } from "../utils/validators/emailValidator";
@@ -18,18 +18,26 @@ function Profile() {
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [avatar, setAvatar] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
 
     // State variables for error messages
-    const [firstNameError, setFirstNameError] = useState('')
-    const [lastNameError, setLastNameError] = useState('')
-    const [emailError, setEmailError] = useState('')
-    const [currentPasswordError, setCurrentPasswordError] = useState('')
-    const [newPasswordError, setNewPasswordError] = useState('')
-    const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
-    const [error, setError] = useState('')
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [currentPasswordError, setCurrentPasswordError] = useState('');
+    const [newPasswordError, setNewPasswordError] = useState('');
+    const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [error, setError] = useState('');
+    const [fileSizeError, setFileSizeError] = useState('');
 
+
+        // Function to handle password visibility toggle
+    const handlePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     useEffect(() => {
         const token = Cookies.get('token'); // Assuming token is stored in cookies with the name 'token'
@@ -41,20 +49,84 @@ function Profile() {
                 }
             })
             .then(response => {
-                const { firstname, lastname, email } = response.data;
+                const { firstname, lastname, email, avatar } = response.data;
                 setUserFirstName(firstname);
                 setUserLastName(lastname);
                 setUserEmail(email);
+                setAvatar(avatar)
             })
             .catch(err => {
                 console.error(err);
                 setError("Failed to fetch user profile.");
             });
+
         } else {
             setError("User is not authenticated.");
         }
     }, []);
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file && file.size > maxSize) {
+            setFileSizeError("File size exceeds 2MB. Please select a smaller file.");
+            setSelectedFile(null);
+            setTimeout(() => {
+                setFileSizeError('');
+            }, 5000)
+            return;
+        }
+
+        setSelectedFile(file);
+        setFileSizeError('');
+
+        // Update avatar preview
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setAvatar(reader.result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleUpload = (e) => {
+        e.preventDefault(); // Prevent the default form submission
+    
+        const token = Cookies.get('token');
+        const formData = new FormData();
+        formData.append('upload', selectedFile);
+    
+        if (token && selectedFile) {
+            axios.post("https://campus-market-api.onrender.com/profile/avatar", formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                setAvatar(response.data.data.avatar); // Update avatar with the response data
+                setSuccessMessage("Profile picture updated successfully!");
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 5000)
+            })
+            .catch(err => {
+                console.error(err);
+                setError("Failed to upload profile picture.");
+                setTimeout(() => {
+                    setError('');
+                }, 5000)
+            });
+        } else {
+            setError("Please select a file to upload.");
+            setTimeout(() => {
+                setError('');
+            }, 5000)
+        }
+    };
+    
 
     return (
         <div>
@@ -64,7 +136,10 @@ function Profile() {
             {/* Display error or success message */}
             {error && <div className="bg-error-100 w-full fixed top-0 z-50 text-center mx-auto mb-6 px-10 py-4"><p className='font-lato text-base text-error-700 leading-6'>{error}</p></div>}
 
-            {successMessage && <div className="bg-accent-100 w-full fixed top-0 z-50 text-center mx-auto px-10 py-4"><p className='font-lato text-base text-accent-700 leading-6'>{successMessage   }</p></div>}
+            {successMessage && <div className="bg-success-100 w-full fixed top-0 z-50 text-center mx-auto px-10 py-4"><p className='font-lato text-base text-success-700 leading-6'>{successMessage}</p></div>}
+
+            {fileSizeError && <div className="bg-error-100 w-full fixed top-0 z-50 text-center mx-auto px-10 py-4"><p className='font-lato text-base text-error-700 leading-6'>{fileSizeError}</p></div>}
+
 
             {/* Main content */}
             <div className="mx-4 md:mx-14 mt-10">
@@ -80,19 +155,33 @@ function Profile() {
                     <div className="mt-12">
                         <p className="font-os text-black-600 leading-normal text-base">Profile Picture</p>
                         <div className="md:w-fit flex flex-col md:flex-row items-center gap-x-8 mt-5">
-                            <img src="https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg" alt="User profile" className="h-20 w-20 rounded-full object-cover" />
 
-                            <div className="flex flex-col md:flex-row gap-x-3 gap-y-3 mt-5 md:mt-0 w-full">
-                                <label htmlFor="userPhoto" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-center text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer">
-                                    Change Photo
-                                </label>
-                                <input type="file" id="userPhoto" accept="image/*" className="hidden" />
+                        <form onSubmit={handleUpload} className="w-full">
+                            <div className="flex flex-col md:flex-row items-center gap-x-3 gap-y-4 mt-5 md:mt-0 w-full">
 
-                                <label htmlFor="removePhoto" className="rounded-lg bg-lightgray-600 text-center text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer">
-                                    Remove Photo
-                                </label>
-                                <input type="file" id="removePhoto" accept="image/*" className="hidden" />
+                                <div className="flex items-center">
+                                    <img src={avatar} alt="User profile" className="w-32 rounded-full object-cover" />
+                                </div>
+
+                                <div className="flex flex-col mt-4 md:mt-0 w-full md:w-fit">
+                                    <label htmlFor="userPhoto" className="rounded-lg border border-lightgray-800 text-center text-lightgray-800 font-os text-base px-4 py-3 cursor-pointer">
+                                        Change Photo
+                                    </label>
+                                    <input type="file" id="userPhoto" accept="image/*" className="hidden" onChange={handleFileChange} />
+                                </div>
+
+                                <button type="submit" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer w-full md:w-fit">
+                                    Save Changes
+                                </button>
                             </div>
+                                
+                            <div className="mt-4 md:mt-10">
+                                <button type="submit" className="rounded-lg md:border md:border-error-700 text-center text-error-700 font-os text-base font-medium px-4 py-3 cursor-pointer w-full md:w-fit">
+                                    Remove Photo
+                                </button>
+                            </div>
+                        </form>
+
                         </div>
 
                         {/* Input fields */}
@@ -122,37 +211,26 @@ function Profile() {
 
                             {/* Save Changes Button */}
                             <div className="mt-10">
-                                <button type="submit" disabled={loading} className="font-lato text-base bg-primary-700 hover:bg-primary-800 text-lightgray-100 px-5 py-3 rounded-lg w-full md:w-fit">{loading ? 'Saving...' : 'Save Changes'}</button>
+                                <button type="submit" disabled={loading} className="font-lato text-base bg-primary-700 hover:bg-primary-800 w-full md:w-fit text-center text-lightgray-100 rounded-lg px-16 py-3">{loading ? 'Saving...' : 'Save Changes'}</button>
                             </div>
                         </form>
-                        {/* Separator */}
-                        <hr className="w-full md:w-[810px] h-px my-10 bg-lightgray-400 border-0" />
                     </div>
                 </div>
 
                 {/* Security section */}
-                <div className="mt-12">
-                    <h3 className="text-2xl font-os font-bold text-black-600 leading-8">Security</h3>
-                    <p className="text-[15px] font-os font-normal text-black-400 leading-normal mx-auto mt-2">Forgot your password? Change your password here.</p>
+                <div className="mt-20">
+                    <h3 className="text-2xl font-sg font-bold text-black-500 leading-8">Security</h3>
+                    <p className="text-[15px] w-[300px] md:w-full font-lato font-normal text-black-400 leading-normal me-auto mt-2">Update your security settings such as your password.</p>
 
-                    {/* Password fields */}
-                    <div className="mt-12">
-                        <form method="POST">
-                        <div className="md:flex flex-col md:flex-row md:flex-wrap gap-x-5 w-full mt-10">
+                    {/* Change Password Form */}
+                    <form method="POST" className="mt-8">
+                        <div className=" flex flex-col md:flex-row md:flex-wrap gap-x-5 gap-y-7 md:w-fit">
                             {/* Current Password */}
-                            <div className='relative'>
-                                <label htmlFor="">Current Password</label>
-                                <div className='flex items-center mt-3'>
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        name='currentPassword'
-                                        id='currentPassword'
-                                        className="font-os mx-auto w-full md:w-[380px] block rounded-lg border border-lightgray-400 px-4 py-3 text-base text-black-600 placeholder:text-black-100 outline-primary-100"
-                                        placeholder='Password'
-                                        value={currentPassword}
-                                        onChange={(e) => setCurrentPassword(e.target.value)}
-                                    />
-                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3'>
+                            <div className="">
+                                <label htmlFor="current-password" className="font-os block text-base font-normal text-black-600 leading-6">Current Password</label>
+                                <div className="relative flex items-center mt-3">
+                                    <input type={showPassword ? 'text' : 'password'} id="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="font-os block w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Current Password' />
+                                    <button type='button' className='absolute text-base font-os right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility}>
                                         {showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}
                                     </button>
                                 </div>
@@ -160,85 +238,39 @@ function Profile() {
                             </div>
 
                             {/* New Password */}
-                            <div className='relative mt-8 md:mt-0'>
-                                <label htmlFor="">New Password</label>
-                                <div className='flex items-center mt-3'>
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        name='NewPassword'
-                                        id='NewPassword'
-                                        className="font-lato mx-auto w-full md:w-[380px] block rounded-lg border border-lightgray-600 px-4 py-3 text-base text-gray-600 placeholder:text-gray-200 outline-primary-100"
-                                        placeholder='Password'
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                    />
-                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3'>
+                            <div className="">
+                                <label htmlFor="new-password" className="font-os block text-base font-normal text-black-600 leading-6">New Password</label>
+                                <div className="relative flex items-center mt-3">
+                                    <input type={showPassword ? 'text' : 'password'} id="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="font-os block w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='New Password' />
+                                    <button type='button' className='absolute text-base font-os right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility}>
                                         {showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}
                                     </button>
                                 </div>
                                 {newPasswordError && <p className='text-sm text-error-700 mt-1'>{newPasswordError}</p>}
-                                <p className="font-lato text-gray-300 text-sm w-[360px] md:w-[380px] mt-2 leading-relaxed">Your password must contain an uppercase letter, a lowercase letter, special characters, and digits.</p>
                             </div>
 
                             {/* Confirm New Password */}
-                            <div className='relative mt-8 md:mt-0'>
-                                <label htmlFor="">Confirm New Password</label>
-                                <div className='flex items-center mt-3'>
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        name='confirmNewPassword'
-                                        id='confirmNewPassword'
-                                        className="font-os mx-auto w-full md:w-[380px] block rounded-lg border border-lightgray-400 px-4 py-3 text-base text-black-600 placeholder:text-gray-100 outline-primary-100"
-                                        placeholder='Password'
-                                        value={confirmNewPassword}
-                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                    />
-                                    <button type='button' className='absolute text-base font-montserrat right-2 md:right-0 px-4 py-3'>
+                            <div className="">
+                                <label htmlFor="confirm-new-password" className="font-os block text-base font-normal text-black-600 leading-6">Confirm New Password</label>
+                                <div className="relative flex items-center mt-3">
+                                    <input type={showPassword ? 'text' : 'password'} id="confirm-new-password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} className="font-os block w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='Confirm New Password' />
+                                    <button type='button' className='absolute text-base font-os right-2 md:right-0 px-4 py-3' onClick={handlePasswordVisibility}>
                                         {showPassword ? <img src={EyeOpen} alt="Eye Open" /> : <img src={EyeClosed} alt="Eye Closed" />}
                                     </button>
                                 </div>
                                 {confirmNewPasswordError && <p className='text-sm text-error-700 mt-1'>{confirmNewPasswordError}</p>}
                             </div>
                         </div>
-                        
 
                         {/* Change Password Button */}
                         <div className="mt-10">
-                            <button type="submit" disabled={loading} className="font-lato text-base bg-primary-700 hover:bg-primary-800 text-lightgray-100 px-5 py-3 rounded-lg w-full md:w-fit">{loading ? 'Changing...' : 'Change Password'}</button>
+                            <button type="submit" disabled={loading} className="font-lato text-base bg-primary-700 hover:bg-primary-800 w-full md:w-fit text-center text-lightgray-100 rounded-lg px-16 py-3">{loading ? 'Saving...' : 'Change Password'}</button>
                         </div>
-                        </form>
-
-                        {/* Separator */}
-                        <hr className="w-full md:w-[810px] h-px my-10 bg-lightgray-400 border-0" />
-                    </div>
-                </div>
-
-                {/* Delete account section */}
-                <div className="mt-12 mb-6">
-                    <h3 className="text-2xl font-sg font-bold text-error-600 leading-8">Danger Zone</h3>
-                    <p className="text-[15px] w-[320px] md:w-[616px] font-lato font-normal text-black-400 leading-normal me-auto mt-2">Here, you have the option to delete your account along with all associated data. Please be aware that this action cannot be undone.</p>
-
-                    {/* Delete Account Input */}
-                    <div className="mt-12">
-                        <div className="mt-10">
-                            <div className="">
-                                <label htmlFor="" className="font-lato block text-base font-normal text-gray-500 leading-6">Delete Account</label>
-
-                                <div className="flex flex-col md:flex-row md:items-center mt-3 md:gap-x-5">
-                                    <input type="text" className="block w-full md:w-[380px] rounded-lg border border-lightgray-600 px-4 py-3 text-gray-500 outline-primary-100 placeholder:text-gray-200" placeholder='Delete' />
-
-                                    <p className="font-lato text-gray-300 text-sm my-3 leading-relaxed md:hidden">Type <span className="font-semibold text-gray-400">Delete</span> to confirm your account deletion</p>
-
-                                    <button type="button" className="font-lato text-base bg-error-700 text-lightgray-100 px-5 py-3.5 md:py-3 rounded-lg mt-4 mb-10 md:my-0">Delete Account</button>
-                                </div>
-                                <p className="font-lato text-gray-300 text-sm my-2 leading-relaxed hidden md:block">Type <span className="font-semibold text-gray-400">Delete</span> to confirm your account deletion</p>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default Profile;

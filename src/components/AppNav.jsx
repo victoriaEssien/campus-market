@@ -8,8 +8,6 @@ import Cookies from 'js-cookie';
 // Icons
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
-// Default Avatar
-const defaultAvatar = 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg';
 
 function AppNav() {
     const navigation = [
@@ -43,7 +41,7 @@ function AppNav() {
                     const user = response.data;
                     setUserInfo({
                         username: `${user.firstname} ${user.lastname}`,
-                        profilePicture: defaultAvatar, // Initially, no profile picture
+                        profilePicture: `${user.avatar}`,
                     });
 
                     // Fetch the avatar
