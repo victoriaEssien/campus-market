@@ -67,7 +67,7 @@ const ResetPassword = () => {
                             </button>
                             <div className="w-fit mx-auto mt-8">
                                 <Link to='/login'>
-                                <p className="text-base font-os font-semibold text-accent-700">Back to Login</p>
+                                <p className="text-base font-os font-semibold text-secondary-700">Back to Login</p>
                                 </Link>
                             </div>
                             </div>
