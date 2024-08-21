@@ -37,6 +37,7 @@ const featuredAds = [
 function HomePage() {
   // Create States to manage Erros
   const [error, setError] = useState('');
+  // Create States to manage Categories
   const [categories, setCategories] = useState([]);
 
   // Call Get Categories API
