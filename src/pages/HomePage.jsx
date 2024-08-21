@@ -12,14 +12,16 @@ import Watch from "../assets/images/watch.png";
 import Socks from "../assets/images/socks.png";
 import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 
-const categories = [
-  { image: FashionCategory, name: "Fashion" },
-  { image: FoodCategory, name: "Groceries & Food" },
-  { image: HealthAndBeautyCategory, name: "Health & Beauty" },
-  { image: ServicesCategory, name: "Services" }
-];
+// const categories = [
+//   { image: FashionCategory, name: "Fashion" },
+//   { image: FoodCategory, name: "Groceries & Food" },
+//   { image: HealthAndBeautyCategory, name: "Health & Beauty" },
+//   { image: ServicesCategory, name: "Services" }
+// ];
 
 const featuredAds = [
   { image: ToteBag, name: "Ladies Canvas Tote Bag Cotton Cloth...", price: "₦6,600" },
@@ -33,6 +35,32 @@ const featuredAds = [
 ];
 
 function HomePage() {
+  // Create States to manage Erros
+  const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  // Call Get Categories API
+  const fetchCategories = async () => {
+    try {
+      axios.get('https://campus-market-api.onrender.com/category/all')
+        .then(response => {
+          setCategories(response.data.data);
+          // console.log(response.data.data);
+        })
+        .catch(err => {
+          console.log(err);
+          setError("Error fetching categories");
+        });
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, [])
+
   return (
     <div>
       <AppNav />
@@ -41,16 +69,21 @@ function HomePage() {
         <section>
           <h2 className="font-os text-2xl text-black-600 font-semibold">Categories</h2>
           <div className="flex overflow-x-auto space-x-5 md:grid md:grid-cols-5 md:space-x-0 mt-9">
-            {categories.map((category, index) => (
-              <Link key={index} to="/fashion-items">
-              <div className="w-fit">
-                <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] p-2 w-48">
-                  <img src={category.image} alt={category.name} className="" />
-                </div>
-                <p className="mt-4 text-center font-os font-medium text-black-500">{category.name}</p>
-              </div>
-              </Link>
-            ))}
+            {categories.length > 0 ?
+
+              categories.map((category, index) => (
+                <Link key={index} to="/fashion-items">
+                  <div className="w-fit">
+                    <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] p-2 w-48">
+                      <img src={FashionCategory} alt={category.cateName} className="" />
+                    </div>
+                    <p className="mt-4 text-center font-os font-medium text-black-500">{category.cateName}</p>
+                  </div>
+                </Link>
+              ))
+
+              :<p className='font-lato text-base text-error-700 leading-6'>{error}</p>
+              }
           </div>
         </section>
 
