@@ -26,6 +26,7 @@ const SignUp = () => {
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [generalError, setGeneralError] = useState('');
 
     // State variable for success message
     const [successMessage, setSuccessMessage] = useState('');
@@ -111,7 +112,8 @@ const SignUp = () => {
         } catch (error) {
             if (error.response) {
                 // Server responded with a status other than 200 range
-                console.error("Server error:", error.response.data);
+                // console.error("Server error:", error.response.data.err.message);
+                setGeneralError(error.response.data.err.message);
             } else if (error.request) {
                 // Request was made but no response received
                 console.error("Network error:", error.request);
@@ -211,6 +213,7 @@ const SignUp = () => {
                             </div>
 
                             <div className="mt-8">
+                                <p className="text-sm text-error-600 my-2 text-center">{generalError}</p>
                                 <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-semibold text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
                                     {loading ? 'Just a minute...' : 'Create Account'}
                                 </button>
