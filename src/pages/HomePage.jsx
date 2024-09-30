@@ -46,7 +46,7 @@ function HomePage() {
       axios.get('https://campus-market-api.onrender.com/category/all')
         .then(response => {
           setCategories(response.data.data);
-          // console.log(response.data.data);
+          console.log(response.data.data);
         })
         .catch(err => {
           console.log(err);
