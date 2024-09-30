@@ -15,6 +15,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// Components
+import { CategoryItemComponent } from "../components/Shop/Category/category-item.component";
+import { ProductItemComponent } from "../components/Shop/Products/product-item.component";
+
 
 // const categories = [
 //   { image: FashionCategory, name: "Fashion" },
@@ -73,13 +77,8 @@ function HomePage() {
             {categories.length > 0 ?
 
               categories.map((category, index) => (
-                <Link key={index} to="/fashion-items">
-                  <div className="w-fit">
-                    <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] p-2 w-48">
-                      <img src={FashionCategory} alt={category.cateName} className="" />
-                    </div>
-                    <p className="mt-4 text-center font-os font-medium text-black-500">{category.cateName}</p>
-                  </div>
+                <Link key={ index } to="/fashion-items">
+                  <CategoryItemComponent category={ category } index={ index } />
                 </Link>
               ))
 
@@ -94,11 +93,7 @@ function HomePage() {
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
               <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
-                <div className="cursor-pointer">
-                  <img src={ad.image} alt={ad.name} className="" />
-                </div>
-                <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{ad.name}</p>
-                <p className="mt-1 text-base text-left font-os font-bold text-black-600">{ad.price}</p>
+                <ProductItemComponent ad={ ad } index={ index } />
               </div>
             ))}
           </div>
