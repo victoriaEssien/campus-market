@@ -1,10 +1,13 @@
-
-
 import React from 'react'
+
+// Components
+import AppNav from '../components/AppNav'
 
 function ProductDescription() {
   return (
-    <div>ProductDescription</div>
+    <div>
+      <AppNav />
+    </div>
   )
 }
 

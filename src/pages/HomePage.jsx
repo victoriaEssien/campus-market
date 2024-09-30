@@ -1,8 +1,4 @@
 import AppNav from "../components/AppNav";
-import FashionCategory from "../assets/images/fashion-category.png";
-import FoodCategory from "../assets/images/food-category.png";
-import HealthAndBeautyCategory from "../assets/images/health-and-beauty-category.png";
-import ServicesCategory from "../assets/images/services-category.png";
 import ToteBag from "../assets/images/tote-bag.png";
 import OilPerfume from "../assets/images/oil-perfume.png";
 import Crocs from "../assets/images/crocs.png";
@@ -14,6 +10,9 @@ import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+// Navigation Route handler
+import { useNavigate } from "react-router-dom";
 
 // Components
 import { CategoryItemComponent } from "../components/Shop/Category/category-item.component";
@@ -43,6 +42,8 @@ function HomePage() {
   const [error, setError] = useState('');
   // Create States to manage Categories
   const [categories, setCategories] = useState([]);
+
+  const navigate = useNavigate() // Helps navigate screens onclick
 
   // Call Get Categories API
   const fetchCategories = async () => {
@@ -92,7 +93,11 @@ function HomePage() {
           <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
-              <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
+              <div 
+                key={index} 
+                className="w-fit rounded-[10px] hover:bg-accent-200" 
+                onClick={ () => navigate("/description") }
+              >
                 <ProductItemComponent ad={ ad } index={ index } />
               </div>
             ))}
