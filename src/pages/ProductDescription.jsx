@@ -5,6 +5,7 @@ import AppNav from '../components/AppNav';
 
 // Components
 import { SpecificProductDescriptionComponent } from '../components/Shop/Products';
+import { ProductDetailsComponent } from '../components/Shop/Products/product-details.component';
 
 function ProductDescription() {
 
@@ -12,10 +13,10 @@ function ProductDescription() {
     <div>
       <AppNav />
 
-      <div className='mt-8 md:mx-8'>
+      <div className='mt-8 md:mx-8 pb-12'>
 
         <SpecificProductDescriptionComponent />
-        
+        <ProductDetailsComponent />
 
       </div>
 

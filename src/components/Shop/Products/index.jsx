@@ -11,22 +11,22 @@ export const SpecificProductDescriptionComponent = () => {
 
     return (
         <>
-            <div>
+            <div className="md:flex">
 
-                <div>
-                    <img src={ ToteBag } alt='Image loading...' className='mx-auto md:mx-0' />
+                <div className="md:px-12 md:pt-6">
+                    <img src={ ToteBag } alt='Image loading...' className='rounded-xl mx-auto md:mx-0 md:w-80 md:h-80' />
                     <div className='flex my-3 justify-center'>
-                        <img src={ ToteBag } alt='Image loading...' className='w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='w-12 mx-1' />
+                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
+                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
+                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
+                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
+                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
                     </div>
                     </div>
 
-                    <div className='mx-4 mt-8'>
+                    <div className='mx-4 mt-8 md:grow'>
                     <p className='bg-blue-100 inline-block p-1 px-3 rounded text-xs'>JaneDeo shop</p>
-                    <div className='flex'>
+                    <div className='flex justify-between'>
                         <h4 className='mt-3 text-xl'>5 Pairs Quality Cotton Ankle Socks - White&Black&Navy&Gray</h4>
                         <FaRegHeart className='text-2xl cursor-pointer' />
                     </div>
@@ -44,16 +44,15 @@ export const SpecificProductDescriptionComponent = () => {
                         <p>(30 reviews)</p>
                     </div>
 
-                    <div className="text-center">
-                        <button className='px-24 cursor-pointer py-4 btn_bg mt-3 outline-none border-none rounded-lg text-base text-white'>
+                    <div className="text-center md:text-left">
+                        <button className='px-24 md:px-14 md:py-3 hover:opacity-80 cursor-pointer py-4 btn_bg mt-3 outline-none border-none rounded-lg text-base text-white'>
                             Add to Cart
                         </button>
                     </div>
-
-                    <hr className='my-7' />
                 </div>
 
             </div>
+            <hr className='my-7' />
         </>
     )
 }
