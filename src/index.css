@@ -3,3 +3,10 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+/* Custom Styling */
+.btn_bg
+{
+    background-color: #11334D;
+}
