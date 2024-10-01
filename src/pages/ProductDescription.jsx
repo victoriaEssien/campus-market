@@ -44,6 +44,12 @@ function ProductDescription() {
             <p className='mt-1 font-thin'>Variation Available</p>
 
             <button className='p-2 border rounded my-3'>ONE SIZE FITS ALL</button>
+
+            <div className=''>
+              <p>4.9</p>
+              <FaStar />
+              <p>(30 reviews)</p>
+            </div>
           </div>
 
         </div>
