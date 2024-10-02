@@ -9,7 +9,7 @@ import Watch from "../../../assets/images/watch.png";
 import Socks from "../../../assets/images/socks.png";
 import Necklace from "../../../assets/images/necklace.png";
 
-export const ProductItemComponent = ({ index, ad }) => {
+export const ProductItemComponent = ({ ad }) => {
 
     return (
         <>
