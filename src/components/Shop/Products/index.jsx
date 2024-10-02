@@ -13,7 +13,7 @@ export const SpecificProductDescriptionComponent = () => {
         <>
             <div className="md:flex">
 
-                <div className="md:px-12 md:pt-6">
+                <div className="md:pr-16 md:pt-4">
                     <img src={ ToteBag } alt='Image loading...' className='rounded-xl mx-auto md:mx-0 md:w-80 md:h-80' />
                     <div className='flex my-3 justify-center'>
                         <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
@@ -34,9 +34,9 @@ export const SpecificProductDescriptionComponent = () => {
                     <h4 className='text-2xl font-normal'>₦4,500</h4>
                     <hr className='my-3' />
 
-                    <p className='mt-1 font-thin'>Variation Available</p>
+                    <p className='mt-1 font-thin text-sm'>Variation Available</p>
 
-                    <button className='p-2 border rounded my-3'>ONE SIZE FITS ALL</button>
+                    <button className='p-2 border-2 text-xs rounded my-3 lined_border_color'>ONE SIZE FITS ALL</button>
 
                     <div className='flex text-base my-2' style={{ color: "#497492" }}>
                         <p>4.9</p>

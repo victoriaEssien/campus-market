@@ -6,7 +6,7 @@ export const MoreLikeThisComponent = () => {
             <div>
                 <h3>You May Also Like</h3>
 
-                
+                <div></div>
             </div>
         </>
     )
