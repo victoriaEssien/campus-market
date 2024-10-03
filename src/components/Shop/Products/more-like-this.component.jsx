@@ -6,8 +6,6 @@ import ToteBag from "../../../assets/images/tote-bag.png";
 import OilPerfume from "../../../assets/images/oil-perfume.png";
 import Crocs from "../../../assets/images/crocs.png";
 import Shirt from "../../../assets/images/shirt.png";
-import Shoe from "../../../assets/images/shoe.png";
-import Watch from "../../../assets/images/watch.png";
 
 export const MoreLikeThisComponent = ({ title }) => {
 
@@ -23,7 +21,7 @@ export const MoreLikeThisComponent = ({ title }) => {
             <div className="md:mx-4">
                 <section className="my-20">
                     <h2 className="mx-5 md:-mx-1 font-os text-xl text-black-600 font-semibold">{ title }</h2>
-                    <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
+                    <div className="mx-4 md:mx-0 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
                         {featuredAds.map((ad, index) => (
                         <div 
                             key={index} 
