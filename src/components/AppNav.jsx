@@ -1,13 +1,34 @@
 
 // Libraries
 import { useState, useEffect, Fragment } from 'react';
-import { Dialog, Transition, Description, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Dialog as Dialogger, Transition } from '@headlessui/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 // Icons
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+
+// Material UI
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+  }));
+
 
 
 function AppNav() {
@@ -24,6 +45,10 @@ function AppNav() {
     const [userInfo, setUserInfo] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleClickOpen = () => setIsOpen(true);
+    const handleClose = () => setIsOpen(false);
 
 
     const toggleDropdown = () => {
@@ -102,8 +127,57 @@ function AppNav() {
                             ))}
                         </div>
                         <div className='hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-3'>
-                            <Link to="#" className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-2.5'>Sell Item</Link>
+                            <Link 
+                                to="#" 
+                                className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                onClick={ () => handleClickOpen() }
+                            >
+                                Sell Item
+                            </Link>
                             <div className="h-8 border-l-2 border-lightgray-300"></div>
+
+                            <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={isOpen}
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          Modal title
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={(theme) => ({
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: theme.palette.grey[500],
+          })}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          <Typography gutterBottom>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </Typography>
+          <Typography gutterBottom>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </Typography>
+          <Typography gutterBottom>
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+            ullamcorper nulla non metus auctor fringilla.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
                             {/* <div className="relative inline-block text-left">
                                     <div>
                                         <button
@@ -166,9 +240,9 @@ function AppNav() {
                             )}
                         </div>
                     </nav>
-                    <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+                    <Dialogger as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                         <div className='fixed inset-0 z-50' />
-                        <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white'>
+                        <Dialogger.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white'>
                             <div className="flex items-center justify-between">
                                 <a href="#" className='-m-1.5 p-5'>
                                     <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
@@ -191,6 +265,7 @@ function AppNav() {
                                     <Link 
                                         to="#" 
                                         className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                        onClick={ () => handleClickOpen() }
                                     >
                                         Sell Item
                                     </Link>
@@ -230,13 +305,13 @@ function AppNav() {
                                     </div>
                                 </div>
                             </div>
-                        </Dialog.Panel>
-                    </Dialog>
+                        </Dialogger.Panel>
+                    </Dialogger>
                 </header>
 
                 {/* Modal */}
                 <Transition appear show={isModalOpen} as={Fragment}>
-                    <Dialog as="div" className="relative z-50" onClose={handleModalClose}>
+                    <Dialogger as="div" className="relative z-50" onClose={handleModalClose}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -260,15 +335,15 @@ function AppNav() {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
+                            <Dialogger.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
                             <div className="flex justify-end">
                                 <button className="rounded-full p-1 hover:bg-gray-200" onClick={handleModalClose}>
                                 <XMarkIcon className="h-6 w-6 text-primary-500" />
                                 </button>
                             </div>
-                            <Dialog.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
+                            <Dialogger.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
                                 Log out of Campus Market?
-                            </Dialog.Title>
+                            </Dialogger.Title>
                             <div className="mt-3">
                                 <p className="text-[15px] w-11/12 md:w-10/12 text-black-400 leading-normal md:leading-relaxed">
                                 You can always log back in at any time.
@@ -291,11 +366,11 @@ function AppNav() {
                                 Log Out
                                 </button>
                             </div>
-                            </Dialog.Panel>
+                            </Dialogger.Panel>
                         </Transition.Child>
                         </div>
                     </div>
-                    </Dialog>
+                    </Dialogger>
                 </Transition>
             </div>
 
