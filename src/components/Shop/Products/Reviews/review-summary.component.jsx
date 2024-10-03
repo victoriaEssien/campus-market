@@ -24,7 +24,7 @@ export const ReviewSummaryComponent = ({ rating, record }) => {
     getRating();
 
     return (
-        <div className="p-5 border rounded-md md:mr-12 md:mt-3 md:max-h-72">
+        <div className="p-5 border rounded-md md:mr-12 md:mt-3 lg:max-h-72 md:max-h-80">
             <div className="flex mb-5">
                 <h1 className="text-4xl font-semibold mr-3">4.9</h1>
                 <div>
@@ -38,7 +38,7 @@ export const ReviewSummaryComponent = ({ rating, record }) => {
             </div>
 
             <button 
-                className="py-2.5 px-6 mt-6 text-white rounded-lg" 
+                className="py-2.5 px-6 lg:px-6 mt-6 text-white rounded-lg hover:opacity-80 md:px-4" 
                 style={{ background: "#11334D" }}
             >
                 Leave A Review

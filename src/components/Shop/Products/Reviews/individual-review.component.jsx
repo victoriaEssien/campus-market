@@ -8,7 +8,7 @@ import { StarAlignmentComponent } from "./star-alignment.component";
 export const IndividualReviewComponent = () => {
 
     return (
-        <div className="border my-3 p-5">
+        <div className="border my-3 p-5 rounded-lg">
             <div className="mb-5">
                 <StarAlignmentComponent rating={ 4 } />
             </div>
