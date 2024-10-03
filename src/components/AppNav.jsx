@@ -81,7 +81,7 @@ function AppNav() {
 
     return (
         <>
-            <div className='bg-white fixed w-full top-0'>
+            <div className='bg-white fixed w-full top-0 shadow'>
                 <header className='inset-x-0 top-0 z-50'>
                     <nav className='flex items-center justify-between p-4 lg:px-12 border-b border-primary-50' aria-label='Global'>
                         <div className='flex lg:flex mr-8'>
@@ -292,7 +292,9 @@ function AppNav() {
                     </Dialog>
                 </Transition>
             </div>
-            <div className='my-24'></div>
+
+            {/* Added a spacer in to the header component */}
+            <div className='my-20'></div>
         </>
     );
 }
