@@ -187,7 +187,12 @@ function AppNav() {
                                     </div> 
                                     
                                     <div className='flex flex-col gap-y-8 py-6 px-4 text-center'>
-                                    <Link to="#" className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3'>Sell Item</Link>
+                                    <Link 
+                                        to="#" 
+                                        className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                    >
+                                        Sell Item
+                                    </Link>
 
                                         {userInfo && (
                                             <div className="relative inline-block mx-auto text-left w-fit">

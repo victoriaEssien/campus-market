@@ -36,7 +36,7 @@ export const SpecificProductDescriptionComponent = () => {
 
                     <p className='mt-1 font-thin text-sm'>Variation Available</p>
 
-                    <button className='p-2 border-2 text-xs rounded my-3 lined_border_color'>ONE SIZE FITS ALL</button>
+                    <button className='p-2 border text-xs rounded my-3 border-secondary-700'>ONE SIZE FITS ALL</button>
 
                     <div className='flex text-base my-2' style={{ color: "#497492" }}>
                         <p>4.9</p>
