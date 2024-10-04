@@ -10,6 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 
+// Components
+import { AddProductPopUpComponent } from '../Products/add-product-popup.component';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
       padding: theme.spacing(2),
@@ -26,9 +29,10 @@ export const PopupMessageComponent = ({ handleClose, isOpen }) => {
         aria-labelledby="customized-dialog-title"
         open={isOpen}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        {/* <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Modal title
-        </DialogTitle>
+        </DialogTitle> */}
+        <div className='my-5'></div>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -41,27 +45,9 @@ export const PopupMessageComponent = ({ handleClose, isOpen }) => {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
+
+        <AddProductPopUpComponent />
+
       </BootstrapDialog>
     )
 }
