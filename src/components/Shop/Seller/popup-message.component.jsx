@@ -28,25 +28,27 @@ export const PopupMessageComponent = ({ handleClose, isOpen }) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
+        className='px-8'
       >
-        {/* <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle> */}
-        <div className='my-5'></div>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
+        <div className='px-9 py-8'>
 
-        <AddProductPopUpComponent />
+            <div className='my-4'></div>
+            <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={(theme) => ({
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: theme.palette.grey[500],
+            })}
+            >
+            <CloseIcon />
+            </IconButton>
+
+            <AddProductPopUpComponent />
+
+        </div>
 
       </BootstrapDialog>
     )
