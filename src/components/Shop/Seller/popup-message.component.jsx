@@ -28,7 +28,6 @@ export const PopupMessageComponent = ({ handleClose, isOpen }) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
-        className='px-8'
       >
         <div className='px-9 py-8'>
 
