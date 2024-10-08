@@ -3,3 +3,15 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+/* Custom Styling */
+.btn_bg
+{
+    background-color: #11334D;
+}
+
+.lined_border_color
+{
+    border-color: #497492;
+}

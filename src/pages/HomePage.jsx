@@ -1,8 +1,4 @@
 import AppNav from "../components/AppNav";
-import FashionCategory from "../assets/images/fashion-category.png";
-import FoodCategory from "../assets/images/food-category.png";
-import HealthAndBeautyCategory from "../assets/images/health-and-beauty-category.png";
-import ServicesCategory from "../assets/images/services-category.png";
 import ToteBag from "../assets/images/tote-bag.png";
 import OilPerfume from "../assets/images/oil-perfume.png";
 import Crocs from "../assets/images/crocs.png";
@@ -14,6 +10,13 @@ import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+// Navigation Route handler
+import { useNavigate } from "react-router-dom";
+
+// Components
+import { CategoryItemComponent } from "../components/Shop/Category/category-item.component";
+import { ProductItemComponent } from "../components/Shop/Products/product-item.component";
 
 
 // const categories = [
@@ -40,13 +43,15 @@ function HomePage() {
   // Create States to manage Categories
   const [categories, setCategories] = useState([]);
 
+  const navigate = useNavigate() // Helps navigate screens onclick
+
   // Call Get Categories API
   const fetchCategories = async () => {
     try {
       axios.get('https://campus-market-api.onrender.com/category/all')
         .then(response => {
           setCategories(response.data.data);
-          // console.log(response.data.data);
+          console.log(response.data.data);
         })
         .catch(err => {
           console.log(err);
@@ -73,13 +78,8 @@ function HomePage() {
             {categories.length > 0 ?
 
               categories.map((category, index) => (
-                <Link key={index} to="/fashion-items">
-                  <div className="w-fit">
-                    <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] p-2 w-48">
-                      <img src={FashionCategory} alt={category.cateName} className="" />
-                    </div>
-                    <p className="mt-4 text-center font-os font-medium text-black-500">{category.cateName}</p>
-                  </div>
+                <Link key={ index } to="/fashion-items">
+                  <CategoryItemComponent category={ category } index={ index } />
                 </Link>
               ))
 
@@ -93,12 +93,12 @@ function HomePage() {
           <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
-              <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
-                <div className="cursor-pointer">
-                  <img src={ad.image} alt={ad.name} className="" />
-                </div>
-                <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{ad.name}</p>
-                <p className="mt-1 text-base text-left font-os font-bold text-black-600">{ad.price}</p>
+              <div 
+                key={index} 
+                className="w-fit rounded-[10px] hover:bg-accent-200" 
+                onClick={ () => navigate("/description") }
+              >
+                <ProductItemComponent ad={ ad } index={ index } />
               </div>
             ))}
           </div>

@@ -267,6 +267,8 @@ function Profile() {
                             <button type="submit" disabled={loading} className="font-lato text-base bg-primary-700 hover:bg-primary-800 w-full md:w-fit text-center text-lightgray-100 rounded-lg px-16 py-3">{loading ? 'Saving...' : 'Change Password'}</button>
                         </div>
                     </form>
+
+                    <div className="my-8"></div>
                 </div>
             </div>
         </div>
