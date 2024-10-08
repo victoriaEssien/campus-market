@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// Skeleton
+import { ProdcutLoaderComponent } from "../components/Shop/Products/product-loader.component";
+
 // Navigation Route handler
 import { useNavigate } from "react-router-dom";
 
@@ -104,6 +107,8 @@ function HomePage() {
           </div>
         </section>
       </div>
+
+      <ProdcutLoaderComponent />
     </div>
   );
 }
