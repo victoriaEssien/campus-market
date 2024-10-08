@@ -61,11 +61,11 @@ const Login = () => {
             if (response.data && response.data.data && response.data.data.token) {
                 // Store the token in cookies
                 Cookies.set('token', response.data.data.token, { expires: 7 }); // Token will expire in 7 days
-                // console.log(response.data);
+                console.log(response.data);
                 navigate("/home");
             }
         } catch (error) {
-            console.error("Error logging in: ", error);
+            // console.error("Error logging in: ", error);
             setGeneralError("Failed to log in. Please check your credentials and try again :)");
             setTimeout(() => setGeneralError(''), 5000);
         } finally {
