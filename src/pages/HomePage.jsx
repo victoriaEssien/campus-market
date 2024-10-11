@@ -94,7 +94,7 @@ function HomePage() {
         {/* Featured Ads */}
         <section className="my-20">
           <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
-          <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
+          <div className="mx-auto md:mx-0 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
               <div 
                 key={index} 
