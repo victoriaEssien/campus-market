@@ -42,10 +42,18 @@ function AppNav() {
     const [userInfo, setUserInfo] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [showUploadProduct, setShowUploadProduct] = useState(false);
+    const [showRegisterSeller, setShowRegisterSeller] = useState(false);
 
-    const handleClickOpen = () => setIsOpen(true);
-    const handleClose = () => setIsOpen(false);
+    const handleClickOpen = (userInfo) => {
+        if(userInfo.isSeller){
+            setShowRegisterSeller(true);
+        }else{
+            setShowUploadProduct(true);
+        }
+    };
+    const handleCloseUploadProduct = () => setShowUploadProduct(false);
+    const handleCloseRegisterSeller = () => setShowRegisterSeller(false);
 
     const toggleDropdown = () => {
         setDropdownOpen((prevOpen) => !prevOpen);
@@ -64,6 +72,7 @@ function AppNav() {
                     setUserInfo({
                         username: `${user.firstname} ${user.lastname}`,
                         profilePicture: `${user.avatar}`,
+                        isSeller: user.seller,
                     });
 
                     // Fetch the avatar
@@ -126,13 +135,14 @@ function AppNav() {
                             <Link 
                                 to="#" 
                                 className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
-                                onClick={ () => handleClickOpen() }
+                                onClick={ () => handleClickOpen(userInfo) }
                             >
                                 Sell Item
                             </Link>
                             <div className="h-8 border-l-2 border-lightgray-300"></div>
 
-                            <PopupMessageComponent isOpen={ isOpen } handleClose={ handleClose } />
+                            {showUploadProduct && <PopupMessageComponent isOpen={ showUploadProduct } handleClose={ handleCloseUploadProduct } />}
+                            {/* {showUploadProduct && <UploadProductComponent isOpen={ showUploadProduct } handleClose={ handleClose } />} */}
 
                             
                             {/* <div className="relative inline-block text-left">

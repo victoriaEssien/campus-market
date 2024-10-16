@@ -26,21 +26,25 @@ const featuredAds = [
 function FashionItems() {
   return (
     <div>
-      <AppNav />
-      <div className="mx-4 md:mx-14 mt-14">
+      <div>
+        <AppNav />
+      </div>
+      <div className="mx-4 md:mx-14 mt-14 ">
 
         {/* Fashion Items */}
         <section className="my-20">
-          <h2 className="font-os text-2xl text-black-600 font-semibold">Fashion Top Deals</h2>
+          <h2 className="font-os text-2xl text-black-600 pt-7 font-semibold">Fashion Top Deals</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
-              <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
-                <div className="cursor-pointer">
-                  <img src={ad.image} alt={ad.name} className="" />
+              <a href='/description'>
+                <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
+                  <div className="cursor-pointer">
+                    <img src={ad.image} alt={ad.name} className="" />
+                  </div>
+                  <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{ad.name}</p>
+                  <p className="mt-1 text-base text-left font-os font-bold text-black-600">{ad.price}</p>
                 </div>
-                <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{ad.name}</p>
-                <p className="mt-1 text-base text-left font-os font-bold text-black-600">{ad.price}</p>
-              </div>
+              </a>
             ))}
           </div>
         </section>
