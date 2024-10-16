@@ -16,15 +16,16 @@ import Dialog from '@mui/material/Dialog';
 
 // Dialog Component
 import { PopupMessageComponent } from './Shop/Seller/popup-message.component';
+import SellerRegisteration from '../pages/SellerRegisteration';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
+        padding: theme.spacing(2),
     },
     '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
+        padding: theme.spacing(1),
     },
-  }));
+}));
 
 
 
@@ -46,10 +47,11 @@ function AppNav() {
     const [showRegisterSeller, setShowRegisterSeller] = useState(false);
 
     const handleClickOpen = (userInfo) => {
-        if(userInfo.isSeller){
-            setShowRegisterSeller(true);
-        }else{
+        if (userInfo.isSeller) {
             setShowUploadProduct(true);
+        } else {
+            setShowRegisterSeller(true);
+            navigate()
         }
     };
     const handleCloseUploadProduct = () => setShowUploadProduct(false);
@@ -97,11 +99,11 @@ function AppNav() {
 
     const handleModalOpen = () => {
         setIsModalOpen(true);
-      };
-    
-      const handleModalClose = () => {
+    };
+
+    const handleModalClose = () => {
         setIsModalOpen(false);
-      };
+    };
 
     // Handle Sign Out function
     const handleSignOut = () => {
@@ -132,19 +134,18 @@ function AppNav() {
                             ))}
                         </div>
                         <div className='hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-3'>
-                            <Link 
-                                to="#" 
+                            <Link
+                                to="#"
                                 className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
-                                onClick={ () => handleClickOpen(userInfo) }
+                                onClick={() => handleClickOpen(userInfo)}
                             >
                                 Sell Item
                             </Link>
                             <div className="h-8 border-l-2 border-lightgray-300"></div>
 
-                            {showUploadProduct && <PopupMessageComponent isOpen={ showUploadProduct } handleClose={ handleCloseUploadProduct } />}
-                            {/* {showUploadProduct && <UploadProductComponent isOpen={ showUploadProduct } handleClose={ handleClose } />} */}
+                            {showUploadProduct && <PopupMessageComponent isOpen={showUploadProduct} handleClose={handleCloseUploadProduct} />}
 
-                            
+
                             {/* <div className="relative inline-block text-left">
                                     <div>
                                         <button
@@ -182,7 +183,7 @@ function AppNav() {
                                             onClick={toggleDropdown}
                                             className="flex items-center space-x-2 focus:outline-none"
                                         >
-                                        
+
                                             <img src={userInfo.profilePicture} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
                                             <span className="text-black-600 text-base font-os font-medium">{userInfo.username}</span>
                                             <ChevronDownIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
@@ -226,16 +227,16 @@ function AppNav() {
                                             <Link key={item.name} to={item.href} className={`-mx-3 block rounded-lg px-7 py-2 text-base font-os leading-7 hover:bg-gray-50 ${location.pathname === item.href ? 'text-primary-600 font-semibold' : 'text-black-600 font-normal'}`}>{item.name}
                                             </Link>
                                         ))}
-                                    </div> 
-                                    
+                                    </div>
+
                                     <div className='flex flex-col gap-y-8 py-6 px-4 text-center'>
-                                    <Link 
-                                        to="#" 
-                                        className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
-                                        onClick={ () => handleClickOpen() }
-                                    >
-                                        Sell Item
-                                    </Link>
+                                        <Link
+                                            to="#"
+                                            className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                            onClick={() => handleClickOpen()}
+                                        >
+                                            Sell Item
+                                        </Link>
 
                                         {userInfo && (
                                             <div className="relative inline-block mx-auto text-left w-fit">
@@ -279,64 +280,64 @@ function AppNav() {
                 {/* Modal */}
                 <Transition appear show={isModalOpen} as={Fragment}>
                     <Dialogger as="div" className="relative z-50" onClose={handleModalClose}>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="fixed inset-0 bg-black-1000 bg-opacity-25" />
-                    </Transition.Child>
-
-                    <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
                             leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
                         >
-                            <Dialogger.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
-                            <div className="flex justify-end">
-                                <button className="rounded-full p-1 hover:bg-gray-200" onClick={handleModalClose}>
-                                <XMarkIcon className="h-6 w-6 text-primary-500" />
-                                </button>
-                            </div>
-                            <Dialogger.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
-                                Log out of Campus Market?
-                            </Dialogger.Title>
-                            <div className="mt-3">
-                                <p className="text-[15px] w-11/12 md:w-10/12 text-black-400 leading-normal md:leading-relaxed">
-                                You can always log back in at any time.
-                                </p>
-                            </div>
-
-                            <div className="mt-10 flex flex-col gap-y-4 md:flex-row md:justify-end md:space-x-4">
-                                <button
-                                type="button"
-                                className="inline-flex justify-center rounded-md border border-primary-600 bg-lightgray-100 px-8 py-3 text-sm font-os font-medium text-primary-600"
-                                onClick={handleModalClose}
-                                >
-                                Cancel
-                                </button>
-                                <button
-                                type="button"
-                                className="inline-flex justify-center rounded-md bg-primary-600 px-8 py-3 text-sm font-os font-medium text-lightgray-100"
-                                onClick={handleSignOut}
-                                >
-                                Log Out
-                                </button>
-                            </div>
-                            </Dialogger.Panel>
+                            <div className="fixed inset-0 bg-black-1000 bg-opacity-25" />
                         </Transition.Child>
+
+                        <div className="fixed inset-0 overflow-y-auto">
+                            <div className="flex min-h-full items-center justify-center p-4 text-center">
+                                <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 scale-95"
+                                    enterTo="opacity-100 scale-100"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 scale-100"
+                                    leaveTo="opacity-0 scale-95"
+                                >
+                                    <Dialogger.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
+                                        <div className="flex justify-end">
+                                            <button className="rounded-full p-1 hover:bg-gray-200" onClick={handleModalClose}>
+                                                <XMarkIcon className="h-6 w-6 text-primary-500" />
+                                            </button>
+                                        </div>
+                                        <Dialogger.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
+                                            Log out of Campus Market?
+                                        </Dialogger.Title>
+                                        <div className="mt-3">
+                                            <p className="text-[15px] w-11/12 md:w-10/12 text-black-400 leading-normal md:leading-relaxed">
+                                                You can always log back in at any time.
+                                            </p>
+                                        </div>
+
+                                        <div className="mt-10 flex flex-col gap-y-4 md:flex-row md:justify-end md:space-x-4">
+                                            <button
+                                                type="button"
+                                                className="inline-flex justify-center rounded-md border border-primary-600 bg-lightgray-100 px-8 py-3 text-sm font-os font-medium text-primary-600"
+                                                onClick={handleModalClose}
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="inline-flex justify-center rounded-md bg-primary-600 px-8 py-3 text-sm font-os font-medium text-lightgray-100"
+                                                onClick={handleSignOut}
+                                            >
+                                                Log Out
+                                            </button>
+                                        </div>
+                                    </Dialogger.Panel>
+                                </Transition.Child>
+                            </div>
                         </div>
-                    </div>
                     </Dialogger>
                 </Transition>
             </div>
