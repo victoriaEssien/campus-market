@@ -16,6 +16,7 @@ import Dialog from '@mui/material/Dialog';
 
 // Dialog Component
 import { PopupMessageComponent } from './Shop/Seller/popup-message.component';
+import { useUserStore } from '../stores/user-store';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -45,7 +46,11 @@ function AppNav() {
     const [showUploadProduct, setShowUploadProduct] = useState(false);
     const [showRegisterSeller, setShowRegisterSeller] = useState(false);
 
-    const handleClickOpen = (userInfo ,e) => {
+    // Global states
+    const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
+
+    const handleClickOpen = (userInfo, e) => {
         e.preventDefault()
         if (userInfo.isSeller) {
             setShowUploadProduct(true);
@@ -71,6 +76,19 @@ function AppNav() {
             })
                 .then(response => {
                     const user = response.data;
+                    
+                    // add user info to zustand store. 
+                    const userDetails = Object.keys(user).map(key => {
+                        if (key === 'updatedAt' || key === '__v' || key === 'token') {
+                            return null;
+                        }
+                        if (key === '_id') {
+                            setUser('userId', user[key])
+                            return null
+                        }
+                        setUser(key, user[key])
+                    })
+
                     setUserInfo({
                         username: `${user.firstname} ${user.lastname}`,
                         profilePicture: `${user.avatar}`,
