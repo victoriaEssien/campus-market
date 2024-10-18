@@ -69,6 +69,7 @@ function AppNav() {
 
     useEffect(() => {
         const token = Cookies.get('token');
+        console.log(token)
         if (token) {
             axios.get('https://campus-market-api.onrender.com/profile/specific', {
                 headers: {
@@ -79,16 +80,7 @@ function AppNav() {
                     const user = response.data;
 
                     // add user info to zustand store. 
-                    const userDetails = Object.keys(user).map(key => {
-                        if (key === 'updatedAt' || key === '__v' || key === 'token') {
-                            return null;
-                        }
-                        if (key === '_id') {
-                            setUser('userId', user[key])
-                            return null
-                        }
-                        setUser(key, user[key])
-                    })
+                    setUser(user);
 
                     setUserInfo({
                         username: `${user.firstname} ${user.lastname}`,
