@@ -39,7 +39,7 @@ export const AddProductPopUpComponent = () => {
                     break;
                 
                 case "textarea":
-                    template = <textarea rows="4" cols="57" className="rounded-lg" placeholder={ item.placeholder }></textarea>
+                    template = <textarea rows="4" className="rounded-lg w-full" placeholder={ item.placeholder }></textarea>
         }
         
         return template;
@@ -47,6 +47,8 @@ export const AddProductPopUpComponent = () => {
 
     return (
         <div>
+
+            <p>Hello world</p>
 
             {
                 formData.map( (item, i) => {
@@ -62,7 +64,9 @@ export const AddProductPopUpComponent = () => {
                 } )
             }
 
-            <button></button>
+            <div className="text-center mt-6 w-9/12 mx-auto bg-secondary-900 rounded-lg cursor-pointer hover:opacity-85">
+                <p className="text-white py-3.5 text-base font-semibold">Next</p>
+            </div>
 
         </div>
     )

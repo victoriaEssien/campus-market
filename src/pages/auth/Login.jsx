@@ -65,7 +65,7 @@ const Login = () => {
                 navigate("/home");
             }
         } catch (error) {
-            console.error("Error logging in: ", error);
+            // console.error("Error logging in: ", error);
             setGeneralError("Failed to log in. Please check your credentials and try again :)");
             setTimeout(() => setGeneralError(''), 5000);
         } finally {

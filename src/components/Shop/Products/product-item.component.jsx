@@ -1,14 +1,4 @@
 
-// Placeholder Images
-import ToteBag from "../../../assets/images/tote-bag.png";
-import OilPerfume from "../../../assets/images/oil-perfume.png";
-import Crocs from "../../../assets/images/crocs.png";
-import Shirt from "../../../assets/images/shirt.png";
-import Shoe from "../../../assets/images/shoe.png";
-import Watch from "../../../assets/images/watch.png";
-import Socks from "../../../assets/images/socks.png";
-import Necklace from "../../../assets/images/necklace.png";
-
 export const ProductItemComponent = ({ ad }) => {
 
     return (
