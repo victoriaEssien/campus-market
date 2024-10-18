@@ -49,6 +49,7 @@ function AppNav() {
     // Global states
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
+    const clearUser = useUserStore((state) => state.clearUser);
 
     const handleClickOpen = (userInfo, e) => {
         e.preventDefault()
@@ -76,7 +77,7 @@ function AppNav() {
             })
                 .then(response => {
                     const user = response.data;
-                    
+
                     // add user info to zustand store. 
                     const userDetails = Object.keys(user).map(key => {
                         if (key === 'updatedAt' || key === '__v' || key === 'token') {
@@ -126,6 +127,7 @@ function AppNav() {
     // Handle Sign Out function
     const handleSignOut = () => {
         Cookies.remove('token');
+        clearUser()
         navigate('/login')
     }
 
@@ -251,7 +253,7 @@ function AppNav() {
                                         <Link
                                             to="#"
                                             className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
-                                            onClick={() => handleClickOpen()}
+                                            onClick={(e) => handleClickOpen(userInfo, e)}
                                         >
                                             Sell Item
                                         </Link>

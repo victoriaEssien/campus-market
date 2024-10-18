@@ -12,6 +12,7 @@ import Watch from "../assets/images/watch.png";
 import Socks from "../assets/images/socks.png";
 import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
+import { useCategoryStore } from "../stores/category-store";
 
 
 const featuredAds = [
@@ -24,8 +25,12 @@ const featuredAds = [
 ];
 
 function FashionItems() {
+  // Global states
+  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+
   return (
     <div>
+      {console.log(selectedCategory)}
       <div>
         <AppNav />
       </div>
@@ -33,10 +38,10 @@ function FashionItems() {
 
         {/* Fashion Items */}
         <section className="my-20">
-          <h2 className="font-os text-2xl text-black-600 pt-7 font-semibold">Fashion Top Deals</h2>
+          <h2 className="font-os text-2xl text-black-600 pt-7 font-semibold">{selectedCategory.cateName}</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
-              <a href='/description'>
+              <a href='/description' key={index}>
                 <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
                   <div className="cursor-pointer">
                     <img src={ad.image} alt={ad.name} className="" />

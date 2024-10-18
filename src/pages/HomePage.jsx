@@ -20,14 +20,7 @@ import { useNavigate } from "react-router-dom";
 // Components
 import { CategoryItemComponent } from "../components/Shop/Category/category-item.component";
 import { ProductItemComponent } from "../components/Shop/Products/product-item.component";
-
-
-// const categories = [
-//   { image: FashionCategory, name: "Fashion" },
-//   { image: FoodCategory, name: "Groceries & Food" },
-//   { image: HealthAndBeautyCategory, name: "Health & Beauty" },
-//   { image: ServicesCategory, name: "Services" }
-// ];
+import { useCategoryStore } from "../stores/category-store";
 
 const featuredAds = [
   { image: ToteBag, name: "Ladies Canvas Tote Bag Cotton Cloth...", price: "₦6,600" },
@@ -46,6 +39,10 @@ function HomePage() {
   // Create States to manage Categories
   const [categories, setCategories] = useState([]);
 
+  // Global states
+  const setSelectedCategory = useCategoryStore((state) => state.setSelectedCategory);
+  // const clearSelectedCategory = useCategoryStore((state) => state.clearSelectedCategory);
+
   const navigate = useNavigate() // Helps navigate screens onclick
 
   // Call Get Categories API
@@ -54,7 +51,7 @@ function HomePage() {
       axios.get('https://campus-market-api.onrender.com/category/all')
         .then(response => {
           setCategories(response.data.data);
-          console.log(response.data.data);
+          // console.log(response.data.data);
         })
         .catch(err => {
           console.log(err);
@@ -64,6 +61,13 @@ function HomePage() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // Handle Selected Category
+  const handleSelectedCategory = (e, category) => {
+    e.preventDefault();
+    setSelectedCategory(category);
+    navigate(`/category/${category.cateName}`);
   }
 
   useEffect(() => {
@@ -81,13 +85,13 @@ function HomePage() {
             {categories.length > 0 ?
 
               categories.map((category, index) => (
-                <Link key={ index } to="/fashion-items">
-                  <CategoryItemComponent category={ category } index={ index } />
+                <Link key={index} onClick={(e) => handleSelectedCategory(e, category)} >
+                  <CategoryItemComponent category={category} index={index} />
                 </Link>
               ))
 
-              :<p className='font-lato text-base text-error-700 leading-6'>{error}</p>
-              }
+              : <p className='font-lato text-base text-error-700 leading-6'>{error}</p>
+            }
           </div>
         </section>
 
@@ -96,12 +100,12 @@ function HomePage() {
           <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
             {featuredAds.map((ad, index) => (
-              <div 
-                key={index} 
-                className="w-fit rounded-[10px] hover:bg-accent-200" 
-                onClick={ () => navigate("/description") }
+              <div
+                key={index}
+                className="w-fit rounded-[10px] hover:bg-accent-200"
+                onClick={() => navigate("/description")}
               >
-                <ProductItemComponent ad={ ad } index={ index } />
+                <ProductItemComponent ad={ad} index={index} />
               </div>
             ))}
           </div>
