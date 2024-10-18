@@ -16,7 +16,6 @@ import Dialog from '@mui/material/Dialog';
 
 // Dialog Component
 import { PopupMessageComponent } from './Shop/Seller/popup-message.component';
-import SellerRegisteration from '../pages/SellerRegisteration';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -46,12 +45,13 @@ function AppNav() {
     const [showUploadProduct, setShowUploadProduct] = useState(false);
     const [showRegisterSeller, setShowRegisterSeller] = useState(false);
 
-    const handleClickOpen = (userInfo) => {
+    const handleClickOpen = (userInfo ,e) => {
+        e.preventDefault()
         if (userInfo.isSeller) {
             setShowUploadProduct(true);
         } else {
             setShowRegisterSeller(true);
-            navigate()
+            navigate('/seller-registration')
         }
     };
     const handleCloseUploadProduct = () => setShowUploadProduct(false);
@@ -135,9 +135,9 @@ function AppNav() {
                         </div>
                         <div className='hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-3'>
                             <Link
-                                to="#"
+                                to=""
                                 className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
-                                onClick={() => handleClickOpen(userInfo)}
+                                onClick={(e) => handleClickOpen(userInfo, e)}
                             >
                                 Sell Item
                             </Link>

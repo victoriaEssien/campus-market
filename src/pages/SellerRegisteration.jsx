@@ -134,7 +134,7 @@ export default function SellerRegisteration() {
             <div>
                 <div className="md:mx-auto my-8">
                     <div className='mx-auto md:w-5/12'>
-                        <h1 className='font-os text-3xl md:text-4xl text-center text-black-600 font-bold leading-relaxed'>{!showBankingDetailsSection ? 'Shop Information' : 'Banking Information'}</h1>
+                        <h1 className='font-os pt-7 text-3xl md:text-4xl text-center text-black-600 font-bold leading-relaxed'>{!showBankingDetailsSection ? 'Shop Information' : 'Banking Information'}</h1>
                         <p className="font-os text-md text-black-400 text-center leading-relaxed mx-auto w-11/12 mt-2 md:mt-4">
                             {!showBankingDetailsSection ? "Enter your shop's details to help customers know more about your business." : "Submit your banking details to receive payments for your services quickly and securely."}
                         </p>
