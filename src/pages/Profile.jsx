@@ -34,31 +34,31 @@ function Profile() {
     const [fileSizeError, setFileSizeError] = useState('');
 
 
-        // Function to handle password visibility toggle
+    // Function to handle password visibility toggle
     const handlePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     useEffect(() => {
         const token = Cookies.get('token'); // Assuming token is stored in cookies with the name 'token'
-        
+
         if (token) {
             axios.get("https://campus-market-api.onrender.com/profile/specific", {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => {
-                const { firstname, lastname, email, avatar } = response.data;
-                setUserFirstName(firstname);
-                setUserLastName(lastname);
-                setUserEmail(email);
-                setAvatar(avatar)
-            })
-            .catch(err => {
-                console.error(err);
-                setError("Failed to fetch user profile.");
-            });
+                .then(response => {
+                    const { firstname, lastname, email, avatar } = response.data;
+                    setUserFirstName(firstname);
+                    setUserLastName(lastname);
+                    setUserEmail(email);
+                    setAvatar(avatar)
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError("Failed to fetch user profile.");
+                });
 
         } else {
             setError("User is not authenticated.");
@@ -70,7 +70,7 @@ function Profile() {
         const maxSize = 2 * 1024 * 1024; // 2MB
 
         if (file && file.size > maxSize) {
-            setFileSizeError("File size exceeds 2MB. Please select a smaller file.");
+            setFileSizeError("Relas o. Hwfa Relas o. File should not be larger than 1MB");
             setSelectedFile(null);
             setTimeout(() => {
                 setFileSizeError('');
@@ -93,11 +93,11 @@ function Profile() {
 
     const handleUpload = (e) => {
         e.preventDefault(); // Prevent the default form submission
-    
+
         const token = Cookies.get('token');
         const formData = new FormData();
         formData.append('upload', selectedFile);
-    
+
         if (token && selectedFile) {
             axios.post("https://campus-market-api.onrender.com/profile/avatar", formData, {
                 headers: {
@@ -105,20 +105,20 @@ function Profile() {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            .then(response => {
-                setAvatar(response.data.data.avatar); // Update avatar with the response data
-                setSuccessMessage("Profile picture updated successfully!");
-                setTimeout(() => {
-                    setSuccessMessage('');
-                }, 5000)
-            })
-            .catch(err => {
-                console.error(err);
-                setError("Failed to upload profile picture.");
-                setTimeout(() => {
-                    setError('');
-                }, 5000)
-            });
+                .then(response => {
+                    setAvatar(response.data.data.avatar); // Update avatar with the response data
+                    setSuccessMessage("Profile picture updated successfully!");
+                    setTimeout(() => {
+                        setSuccessMessage('');
+                    }, 5000)
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError("Failed to upload profile picture.");
+                    setTimeout(() => {
+                        setError('');
+                    }, 5000)
+                });
         } else {
             setError("Please select a file to upload.");
             setTimeout(() => {
@@ -126,7 +126,7 @@ function Profile() {
             }, 5000)
         }
     };
-    
+
 
     return (
         <div>
@@ -153,34 +153,34 @@ function Profile() {
 
                     {/* Profile Picture */}
                     <div className="mt-12">
-                        <p className="font-os text-black-600 leading-normal text-base">Profile Picture</p>
+                        <p className="font-os text-black-600 leading-normal text-base">Profile Picture (<small className="font-lato font-normal text-black-400 leading-normal italic text-center">File must not be Larger than 1MB</small>)</p>
                         <div className="md:w-fit flex flex-col md:flex-row items-center gap-x-8 mt-5">
 
-                        <form onSubmit={handleUpload} className="w-full">
-                            <div className="flex flex-col md:flex-row items-center gap-x-3 gap-y-4 mt-5 md:mt-0 w-full">
+                            <form onSubmit={handleUpload} className="w-full">
+                                <div className="flex flex-col md:flex-row items-center gap-x-3 gap-y-4 mt-5 md:mt-0 w-full">
 
-                                <div className="flex items-center">
-                                    <img src={avatar} alt="User profile" className="w-32 rounded-full object-cover" />
+                                    <div className="flex items-center">
+                                        <img src={avatar} alt="User profile" className="w-32 rounded-full object-cover" />
+                                    </div>
+
+                                    <div className="flex flex-col mt-4 md:mt-0 w-full md:w-fit">
+                                        <label htmlFor="userPhoto" className="rounded-lg border border-lightgray-800 text-center text-lightgray-800 font-os text-base px-4 py-3 cursor-pointer">
+                                            Change Photo
+                                        </label>
+                                        <input type="file" id="userPhoto" accept="image/*" className="hidden" onChange={handleFileChange} />
+                                    </div>
+
+                                    <button type="submit" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer w-full md:w-fit">
+                                        Save Changes
+                                    </button>
                                 </div>
 
-                                <div className="flex flex-col mt-4 md:mt-0 w-full md:w-fit">
-                                    <label htmlFor="userPhoto" className="rounded-lg border border-lightgray-800 text-center text-lightgray-800 font-os text-base px-4 py-3 cursor-pointer">
-                                        Change Photo
-                                    </label>
-                                    <input type="file" id="userPhoto" accept="image/*" className="hidden" onChange={handleFileChange} />
+                                <div className="mt-4 md:mt-10">
+                                    <button type="submit" className="rounded-lg md:border md:border-error-700 text-center text-error-700 font-os text-base font-medium px-4 py-3 cursor-pointer w-full md:w-fit">
+                                        Remove Photo
+                                    </button>
                                 </div>
-
-                                <button type="submit" className="rounded-lg bg-primary-700 hover:bg-primary-800 text-lightgray-100 font-os text-base px-4 py-3 cursor-pointer w-full md:w-fit">
-                                    Save Changes
-                                </button>
-                            </div>
-                                
-                            <div className="mt-4 md:mt-10">
-                                <button type="submit" className="rounded-lg md:border md:border-error-700 text-center text-error-700 font-os text-base font-medium px-4 py-3 cursor-pointer w-full md:w-fit">
-                                    Remove Photo
-                                </button>
-                            </div>
-                        </form>
+                            </form>
 
                         </div>
 
@@ -205,7 +205,7 @@ function Profile() {
                                 <div className="md:mt-0">
                                     <label htmlFor="" className="font-os block text-base font-normal text-black-600 leading-6">Email Address</label>
                                     <input type="text" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} className="block mt-3 w-full md:w-[380px] rounded-lg border border-lightgray-400 px-4 py-3 text-black-600 outline-primary-100 placeholder:text-black-100" placeholder='jane.doe123@gmail.com' />
-                                    {emailError && <p className='text-sm text-error-700 mt-1'>{emailError}</p>}   
+                                    {emailError && <p className='text-sm text-error-700 mt-1'>{emailError}</p>}
                                 </div>
                             </div>
 
