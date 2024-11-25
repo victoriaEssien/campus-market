@@ -25,7 +25,7 @@ function LandingPage() {
                         <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
                         <Route path="/my-cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
                         <Route path="/saved" element={<ProtectedRoute><SavedPage /></ProtectedRoute>} />
-                        <Route path="/description" element={<ProtectedRoute><ProductDescription /></ProtectedRoute>} />
+                        <Route path="/description/:selectedProductId" element={<ProtectedRoute><ProductDescription /></ProtectedRoute>} />
                         <Route path="/my-profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                         <Route path="/category/:selectedCategory" element={<ProtectedRoute><FashionItems /></ProtectedRoute>} />
                         {/* Seller Registration */}

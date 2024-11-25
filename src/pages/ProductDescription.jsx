@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Components
 import AppNav from '../components/AppNav';
@@ -8,17 +8,60 @@ import { SpecificProductDescriptionComponent } from '../components/Shop/Products
 import { ProductDetailsComponent } from '../components/Shop/Products/product-details.component';
 import { MoreLikeThisComponent } from '../components/Shop/Products/more-like-this.component';
 import { ProductReviewComponent } from '../components/Shop/Products/Reviews/product-review.component';
+import { useCategoryStore } from '../stores/category-store';
 
 function ProductDescription() {
+  // Global states
+  const selectedProductId = useCategoryStore((state) => state.selectedProductId);
+  // local states
+  const [productDetails, setProductDetails] = useState([])
+  // Error states
+  const [error, setError] = useState(null)
+
+  // fetch product details
+  const getProducts = async () => {
+    try {
+      const response = await fetch(`https://campus-market-api.onrender.com/products/all?product_id=${selectedProductId}`)
+      const data = await response.json();
+      console.log(data)
+      if (response.ok) {
+        setProductDetails(data.data)
+        return;
+      }
+      setError('something went wrong. please try again');
+      return;
+    } catch (error) {
+      console.log(error)
+      setError('something went wrong. please try again');
+      return;
+    }
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   return (
     <div>
+      {console.log(selectedProductId)}
       <AppNav />
 
       <div className='mt-8 md:mx-8 pb-12'>
 
-        <SpecificProductDescriptionComponent />
-        <ProductDetailsComponent />
+        {error ?
+          <div className='flex justify-center items-center'><p className='font-lato font-normal text-black-400 leading-normal'>{error}</p></div>
+          :
+          productDetails.length > 0 ?
+            productDetails.map((element, index) => (
+              <div key={index}>
+                <SpecificProductDescriptionComponent product={element} />
+                <ProductDetailsComponent product={element} />
+              </div>
+            ))
+            :
+            <div className='flex justify-center items-center'><p className='font-lato font-normal text-black-400 leading-normal'>oh wow. No information for this product. Please try again</p></div>
+        }
+
         <MoreLikeThisComponent title="You May Also Like" />
         <MoreLikeThisComponent title="More From This Seller" />
         <ProductReviewComponent />

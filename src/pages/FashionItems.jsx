@@ -13,6 +13,8 @@ import Socks from "../assets/images/socks.png";
 import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
 import { useCategoryStore } from "../stores/category-store";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const featuredAds = [
@@ -27,10 +29,40 @@ const featuredAds = [
 function FashionItems() {
   // Global states
   const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+  const setSelectedProductId = useCategoryStore((state) => state.setSelectedProductId);
+
+  const [fetchProductsError, setFetchProductsError] = useState(null);
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate() // Helps navigate screens onclick
+
+  const getProducts = async () => {
+    try {
+      const response = await fetch(`https://campus-market-api.onrender.com/products/all?${selectedCategory.cateName}`)
+      const data = await response.json();
+      if (response.ok) {
+        setProducts(data.data)
+        return;
+      }
+      setFetchProductsError('something went wrong. please try again');
+    } catch (error) {
+      console.log(error)
+      setFetchProductsError('something went wrong. please try again');
+    }
+  }
+
+  const handleSelectedProduct = (e, prod) => {
+    e.preventDefault();
+    setSelectedProductId(prod._id)
+    navigate(`/description/${prod._id}`);
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   return (
     <div>
-      {console.log(selectedCategory)}
+      {/* {console.log(selectedCategory)} */}
       <div>
         <AppNav />
       </div>
@@ -40,17 +72,21 @@ function FashionItems() {
         <section className="my-20">
           <h2 className="font-os text-2xl text-black-600 pt-7 font-semibold">{selectedCategory.cateName}</h2>
           <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
-            {featuredAds.map((ad, index) => (
-              <a href='/description' key={index}>
-                <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
-                  <div className="cursor-pointer">
-                    <img src={ad.image} alt={ad.name} className="" />
+            {products.length > 0 ?
+              products.map((product, index) => (
+                <a onClick={(e) => handleSelectedProduct(e, product)} key={index}>
+                  <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
+                    <div className="cursor-pointer">
+                      <img src={product.images[0].image} alt={product.name} className="rounded-xl" />
+                    </div>
+                    <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{product.name}</p>
+                    <p className="mt-1 text-base text-left font-os font-bold text-black-600">{'N' + 150}</p>
                   </div>
-                  <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{ad.name}</p>
-                  <p className="mt-1 text-base text-left font-os font-bold text-black-600">{ad.price}</p>
-                </div>
-              </a>
-            ))}
+                </a>
+              ))
+              :
+              <p className="font-lato font-normal text-black-400 leading-normal">No products in this category</p>
+            }
           </div>
         </section>
       </div>

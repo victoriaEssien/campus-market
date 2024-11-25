@@ -6,31 +6,33 @@ import ToteBag from "../../../assets/images/tote-bag.png";
 // React icons
 import { FaRegHeart } from "react-icons/fa6"; // Favourite icon
 import { FaStar } from "react-icons/fa"; // Star icon
+import { useState } from "react";
 
-export const SpecificProductDescriptionComponent = () => {
+export const SpecificProductDescriptionComponent = ({ product }) => {
+    const [leadImage, setLeadImage] = useState(product.images[0].image);
 
     return (
         <>
+            {console.log(product)}
             <div className="md:flex">
 
                 <div className="md:pr-16 md:pt-4">
-                    <img src={ ToteBag } alt='Image loading...' className='rounded-xl mx-auto md:mx-0 md:w-80 md:h-80' />
+                    <img src={leadImage} alt='Image loading...' className='rounded-xl mx-auto md:mx-0 md:w-80 md:h-80' />
                     <div className='flex my-3 justify-center'>
-                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
-                        <img src={ ToteBag } alt='Image loading...' className='rounded-lg w-12 mx-1' />
-                    </div>
-                    </div>
+                        {product.images.map((element, index) => (
+                            <img onClick={()=>setLeadImage(element.image)} src={element.image} alt='Image loading...' className='rounded-lg size-16 mx-2 cursor-pointer' />
+                        ))}
 
-                    <div className='mx-4 mt-8 md:grow'>
+                    </div>
+                </div>
+
+                <div className='mx-4 mt-8 md:grow'>
                     <p className='bg-blue-100 inline-block p-1 px-3 rounded text-xs'>JaneDeo shop</p>
                     <div className='flex justify-between'>
-                        <h4 className='mt-3 text-xl'>5 Pairs Quality Cotton Ankle Socks - White&Black&Navy&Gray</h4>
+                        <h4 className='mt-3 text-xl'>{product.name}</h4>
                         <FaRegHeart className='text-2xl cursor-pointer' />
                     </div>
-                    <p className='my-3 text-green-600'>In stock</p>
+                    <p className={`my-3 ${product.status > 0 ? 'text-green-600' : 'text-red-600'}`}>{product.status > 0 ? `In Stock (${product.status} left)` : 'Out of Stock'}</p>
                     <h4 className='text-2xl font-normal'>₦4,500</h4>
                     <hr className='my-3' />
 
