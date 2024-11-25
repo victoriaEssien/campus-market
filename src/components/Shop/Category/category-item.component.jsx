@@ -11,7 +11,7 @@ export const CategoryItemComponent = ({ category, index }) => {
         <>
             <div className="w-fit">
                 <div className="bg-accent-500 hover:bg-accent-600 cursor-pointer rounded-[10px] h-48 overflow-y-hidden p-2 w-48">
-                    <img src={category.cateImg} alt={category.cateName} className="h-full w-full" />
+                    <img src={category.cateImg} alt={category.cateName} className="h-full w-full rounded-md" />
                 </div>
                 <p className="mt-4 text-center font-os font-medium text-black-500">{category.cateName}</p>
             </div>

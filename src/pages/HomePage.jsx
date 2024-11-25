@@ -8,7 +8,7 @@ import Watch from "../assets/images/watch.png";
 import Socks from "../assets/images/socks.png";
 import Necklace from "../assets/images/necklace.png";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 
 // Skeleton
@@ -43,19 +43,25 @@ function HomePage() {
   const setSelectedCategory = useCategoryStore((state) => state.setSelectedCategory);
   // const clearSelectedCategory = useCategoryStore((state) => state.clearSelectedCategory);
 
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate() // Helps navigate screens onclick
 
   // Call Get Categories API
   const fetchCategories = async () => {
+    setIsLoading(true)
     try {
       axios.get('https://campus-market-api.onrender.com/category/all')
         .then(response => {
           setCategories(response.data.data);
+          setIsLoading(false)
           // console.log(response.data.data);
         })
         .catch(err => {
           console.log(err);
           setError("Error fetching categories");
+          setIsLoading(false)
         });
 
     } catch (error) {
@@ -81,16 +87,26 @@ function HomePage() {
         {/* Categories section */}
         <section>
           <h2 className="font-os text-2xl text-black-600 font-semibold">Categories</h2>
-          <div className="flex overflow-x-auto space-x-5 md:grid md:grid-cols-5 md:space-x-0 mt-9">
-            {categories.length > 0 ?
+          <div className="">
+            {isLoading ?
+              <div className="w-full">
+                <ProdcutLoaderComponent />
+              </div>
+              :
+              <div className="flex overflow-x-auto space-x-5 md:grid md:grid-cols-5 md:space-x-0 mt-9">
+                {
+                  categories.length > 0 ?
 
-              categories.map((category, index) => (
-                <Link key={index} onClick={(e) => handleSelectedCategory(e, category)} >
-                  <CategoryItemComponent category={category} index={index} />
-                </Link>
-              ))
+                    categories.map((category, index) => (
+                      <Link key={index} onClick={(e) => handleSelectedCategory(e, category)} >
+                        <CategoryItemComponent category={category} index={index} />
+                      </Link>
+                    ))
 
-              : <p className='font-lato text-base text-error-700 leading-6'>{error}</p>
+                    :
+                    <p className='font-lato text-base text-error-700 leading-6'>{error}</p>
+                }
+              </div>
             }
           </div>
         </section>
