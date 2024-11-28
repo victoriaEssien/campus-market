@@ -50,7 +50,6 @@ function ProductDescription() {
 
   return (
     <div>
-      {console.log(selectedProductId)}
       <AppNav />
 
       <div className='mt-8 md:mx-8 pb-12'>

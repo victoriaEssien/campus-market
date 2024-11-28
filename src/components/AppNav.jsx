@@ -17,6 +17,7 @@ import Dialog from '@mui/material/Dialog';
 // Dialog Component
 import { PopupMessageComponent } from './Shop/Seller/popup-message.component';
 import { useUserStore } from '../stores/user-store';
+import { useCartStore } from '../stores/cart-store';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -50,6 +51,8 @@ function AppNav() {
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
     const clearUser = useUserStore((state) => state.clearUser);
+    // global cart state
+    const setCartItems = useCartStore((state) => state.setCartItems)
 
     const handleClickOpen = (userInfo, e) => {
         e.preventDefault()
@@ -69,7 +72,7 @@ function AppNav() {
 
     useEffect(() => {
         const token = Cookies.get('token');
-        console.log(token)
+        // console.log(token)
         if (token) {
             axios.get('https://campus-market-api.onrender.com/profile/specific', {
                 headers: {

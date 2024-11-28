@@ -93,7 +93,7 @@ function FashionItems() {
                           <img src={product.images[0].image} alt={product.name} className="rounded-xl" />
                         </div>
                         <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{product.name}</p>
-                        <p className="mt-1 text-base text-left font-os font-bold text-black-600">{'N' + 150}</p>
+                        <p className="mt-1 text-base text-left font-os font-bold text-black-600">{product.price ? '₦' + product.price : null}</p>
                       </div>
                     </a>
                   ))
