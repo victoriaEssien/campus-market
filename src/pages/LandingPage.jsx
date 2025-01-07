@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import ProtectedRoute from "../components/ProtectedRoute"
-import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems, SellerRegisteration } from "./index"
+import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems, SellerRegisteration, MyShop } from "./index"
 
 
 
@@ -30,6 +30,7 @@ function LandingPage() {
                         <Route path="/category/:selectedCategory" element={<ProtectedRoute><FashionItems /></ProtectedRoute>} />
                         {/* Seller Registration */}
                         <Route path="/seller-registration" element={<ProtectedRoute><SellerRegisteration /></ProtectedRoute>} />
+                        <Route path="/my-shop" element={<ProtectedRoute><MyShop /></ProtectedRoute>} />
                     </Routes>
                 </div>
             </Router>

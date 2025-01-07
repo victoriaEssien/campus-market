@@ -12,7 +12,8 @@ import ProductDescription from "./ProductDescription.jsx"
 import Profile from "./Profile.jsx"
 import FashionItems from "./FashionItems.jsx"
 import SellerRegisteration from "./SellerRegisteration.jsx"
+import MyShop from "./MyShop.jsx"
 
 export {
-    HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems, SellerRegisteration
+    HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems, SellerRegisteration, MyShop
 }
