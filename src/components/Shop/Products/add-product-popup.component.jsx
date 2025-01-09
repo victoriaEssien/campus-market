@@ -18,20 +18,20 @@ export const AddProductPopUpComponent = () => {
         switch(item.type) {
             case "text":
                 template = <input 
-                    className="px-3 py-2 md:py-4 text-base outline-none border my-3.5 rounded-lg w-full"
+                    className="my-3.5 px-3 py-2 md:py-4 border rounded-lg w-full text-base outline-none"
                     placeholder={ item.placeholder }
                 />
                 break;
             
                 case "file":
-                    template = <div className="flex items-center space-x-2 border border-dashed py-5 px-7 md:px-12 my-3.5 cursor-pointer rounded-lg">
+                    template = <div className="flex items-center space-x-2 my-3.5 px-7 md:px-12 py-5 border border-dashed rounded-lg cursor-pointer">
                                     <input id="file-upload" type="file" className="hidden" />
-                                    <label htmlFor="file-upload" className="items-center cursor-pointer px-4 py-2 rounded-md">
-                                        <FiUploadCloud className="text-3xl cursor-pointer text-gray-400 text-center mx-auto" />
-                                        <span className="cursor-pointer text-center md:px-16 text-sm md:text-lg font-semibold py-5">
+                                    <label htmlFor="file-upload" className="items-center px-4 py-2 rounded-md cursor-pointer">
+                                        <FiUploadCloud className="mx-auto text-3xl text-center text-gray-400 cursor-pointer" />
+                                        <span className="md:px-16 py-5 font-semibold text-center text-sm md:text-lg cursor-pointer">
                                             Click to upload
                                         </span><br />
-                                        <span className="cursor-pointer text-center md:mx-14 font-thin md:font-extralight text-xs md:text-sm">
+                                        <span className="md:mx-14 font-thin md:font-extralight text-center text-xs md:text-sm cursor-pointer">
                                             JPG, PNG(up to 5MB)
                                         </span>
                                     </label>
@@ -47,9 +47,6 @@ export const AddProductPopUpComponent = () => {
 
     return (
         <div>
-
-            <p>Hello world</p>
-
             {
                 formData.map( (item, i) => {
 
@@ -64,8 +61,8 @@ export const AddProductPopUpComponent = () => {
                 } )
             }
 
-            <div className="text-center mt-6 w-9/12 mx-auto bg-secondary-900 rounded-lg cursor-pointer hover:opacity-85">
-                <p className="text-white py-3.5 text-base font-semibold">Next</p>
+            <div className="bg-secondary-900 hover:opacity-85 mx-auto mt-6 rounded-lg w-9/12 text-center cursor-pointer">
+                <p className="py-3.5 font-semibold text-base text-white">Next</p>
             </div>
 
         </div>
