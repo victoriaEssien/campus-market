@@ -1,6 +1,6 @@
 export const getCart = async (token) => {
     try {
-        const response = await fetch(`https://campus-market-api.onrender.com/cart/items`, {
+        const response = await fetch('https://campus-market-api.onrender.com/cart/items', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

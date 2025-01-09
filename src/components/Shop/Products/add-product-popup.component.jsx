@@ -26,7 +26,7 @@ export const AddProductPopUpComponent = () => {
                 case "file":
                     template = <div className="flex items-center space-x-2 my-3.5 px-7 md:px-12 py-5 border border-dashed rounded-lg cursor-pointer">
                                     <input id="file-upload" type="file" className="hidden" />
-                                    <label for="file-upload" class="items-center px-4 py-2 rounded-md cursor-pointer">
+                                    <label htmlFor="file-upload" className="items-center px-4 py-2 rounded-md cursor-pointer">
                                         <FiUploadCloud className="mx-auto text-3xl text-center text-gray-400 cursor-pointer" />
                                         <span className="md:px-16 py-5 font-semibold text-center text-sm md:text-lg cursor-pointer">
                                             Click to upload
@@ -39,7 +39,7 @@ export const AddProductPopUpComponent = () => {
                     break;
                 
                 case "textarea":
-                    template = <textarea rows="4" className="rounded-lg w-full" placeholder={ item.placeholder }></textarea>
+                    template = <textarea rows="4" className="rounded-lg w-full" placeholder={ item.placeholder } />
         }
         
         return template;
@@ -52,7 +52,7 @@ export const AddProductPopUpComponent = () => {
 
                     return (
                         <div key={ i }>
-                            <label>{ item.title }</label>
+                            <p>{ item.title }</p>
                             {
                                 renderSwicth( item )
                             }

@@ -36,6 +36,7 @@ function AppNav() {
         { name: 'Search', href: '/search' },
         { name: 'Cart', href: '/my-cart' },
         { name: 'Saved', href: '/saved' },
+        { name: 'My Shop', href: '/my-shop' },
     ];
 
     const navigate = useNavigate();
@@ -129,7 +130,7 @@ function AppNav() {
 
     return (
         <>
-            <div className='bg-white fixed w-full top-0 shadow'>
+            <div className='bg-white sticky w-full top-0 shadow'>
                 <header className='inset-x-0 top-0 z-50'>
                     <nav className='flex items-center justify-between p-4 lg:px-12 border-b border-primary-50' aria-label='Global'>
                         <div className='flex lg:flex mr-8'>
@@ -156,7 +157,7 @@ function AppNav() {
                             >
                                 Sell Item
                             </Link>
-                            <div className="h-8 border-l-2 border-lightgray-300"></div>
+                            <div className="h-8 border-l-2 border-lightgray-300" />
 
                             {showUploadProduct && <PopupMessageComponent isOpen={showUploadProduct} handleClose={handleCloseUploadProduct} />}
 
