@@ -4,8 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Add axios import
 import { validateEmail } from "../utils/validators/emailValidator";
 import { validatePhoneNumber } from "../utils/validators/phoneNumberValidator";
+import Cookies from 'js-cookie'
+
 // Components
 import AppNav from "../components/AppNav";
+import { RegisterSellerApi } from '../api-call/RegisterSeller';
 
 export default function SellerRegisteration() {
     const navigate = useNavigate();
@@ -30,7 +33,10 @@ export default function SellerRegisteration() {
     const [accountNumberError, setAccountNumberError] = useState('');
     const [accountNameError, setAccountNameError] = useState('');
     const [generalError, setGeneralError] = useState('');
+    const [registerError, setRegisterError] = useState(null);
 
+    //success
+    const [registerSuccess, setRegisterSuccess] = useState(null);
     // State variable for success message
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -75,17 +81,13 @@ export default function SellerRegisteration() {
             return;
         }
 
-
         setShowBankingDetailsSection(true);
-
-
     };
 
 
-    // 
-
     // Handle seller registration
     const handleSellerRegisteration = async (e) => {
+        setLoading(true)
         e.preventDefault();
 
         // Reset error messages
@@ -123,6 +125,43 @@ export default function SellerRegisteration() {
             return;
         }
 
+        //handle api call
+        try {
+            const body = {
+                seller: true,
+                shopName: shopName,
+                shopLocation: shopLocation,
+                shopPhone: shopPhoneNumber,
+                shopType: shopType,
+                bankName: bankName,
+                bankSortCode: bankSortCode,
+                bankAccNum: accountNumber,
+                bankAccName: accountName
+            }
+            const response = await RegisterSellerApi(Cookies.get('token'), body)
+            if (response) {
+                setRegisterSuccess('Seller registration successful');
+                setTimeout(() => {
+                    navigate('/my-shop')
+                }, 2000);
+
+            } else {
+                setLoading(false)
+                setRegisterError('Seller registration failed, please try again');
+                setTimeout(() => {
+                    setRegisterError(null);
+                }, 3000);
+            }
+        } catch (error) {
+            console.log(error);
+            setLoading(false)
+            setRegisterError('An error occurred, please try again');
+            setTimeout(() => {
+                setRegisterError(null);
+            }, 3000);
+
+        }
+
         console.log(shopName, shopLocation, shopPhoneNumber, shopType, bankName, bankSortCode, accountNumber, accountName);
     }
 
@@ -134,17 +173,17 @@ export default function SellerRegisteration() {
             <div>
                 <div className="md:mx-auto my-8">
                     <div className='mx-auto md:w-5/12'>
-                        <h1 className='font-os pt-7 text-3xl md:text-4xl text-center text-black-600 font-bold leading-relaxed'>{!showBankingDetailsSection ? 'Shop Information' : 'Banking Information'}</h1>
-                        <p className="font-os text-md text-black-400 text-center leading-relaxed mx-auto w-11/12 mt-2 md:mt-4">
+                        <h1 className='pt-7 font-bold font-os text-3xl text-black-600 text-center md:text-4xl leading-relaxed'>{!showBankingDetailsSection ? 'Shop Information' : 'Banking Information'}</h1>
+                        <p className="mx-auto mt-2 md:mt-4 w-11/12 font-os text-black-400 text-center text-md leading-relaxed">
                             {!showBankingDetailsSection ? "Enter your shop's details to help customers know more about your business." : "Submit your banking details to receive payments for your services quickly and securely."}
                         </p>
-                        <div className="mt-8 md:mt-10 px-4 md:p-8 md:rounded-[20px] md:border border-lightgray-400 ">
+                        <div className="mt-8 md:mt-10 px-4 md:p-8 md:border border-lightgray-400 md:rounded-[20px]">
                             <form method="POST" onSubmit={handleSellerRegisteration}>
                                 {!showBankingDetailsSection ?
                                     <div>
                                         {/* First Step */}
                                         <div className="mb-4">
-                                            <label htmlFor="shopName" className="block mb-2 font-os text-black-600 ">
+                                            <label htmlFor="shopName" className="block mb-2 font-os text-black-600">
                                                 Shop Name:
                                             </label>
                                             <input
@@ -153,12 +192,12 @@ export default function SellerRegisteration() {
                                                 value={shopName}
                                                 onChange={(e) => setShopName(e.target.value)}
                                                 placeholder="Jewel Jewlries"
-                                                className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                             />
-                                            {shopNameError && <p className=" font-os text-sm text-error-600 mt-2">{shopNameError}</p>}
+                                            {shopNameError && <p className="mt-2 font-os text-error-600 text-sm">{shopNameError}</p>}
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="location" className="block font-os mb-2 text-black-600">
+                                            <label htmlFor="location" className="block mb-2 font-os text-black-600">
                                                 Shop Location:
                                             </label>
                                             <input
@@ -167,12 +206,12 @@ export default function SellerRegisteration() {
                                                 value={shopLocation}
                                                 onChange={(e) => setShopLocation(e.target.value)}
                                                 placeholder="Old girls hostel"
-                                                className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                             />
-                                            {shopLocationError && <p className=" font-os text-sm text-error-600 mt-2">{shopLocationError}</p>}
+                                            {shopLocationError && <p className="mt-2 font-os text-error-600 text-sm">{shopLocationError}</p>}
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="phone" className="block font-os mb-2 text-black-600">
+                                            <label htmlFor="phone" className="block mb-2 font-os text-black-600">
                                                 Shop Phone Number:
                                             </label>
                                             <input
@@ -181,12 +220,12 @@ export default function SellerRegisteration() {
                                                 value={shopPhoneNumber}
                                                 onChange={(e) => setShopPhoneNumber(e.target.value)}
                                                 placeholder="090xxxxxxxx"
-                                                className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                             />
-                                            {shopPhoneNumberError && <p className="font-os text-sm text-error-600 mt-2">{shopPhoneNumberError}</p>}
+                                            {shopPhoneNumberError && <p className="mt-2 font-os text-error-600 text-sm">{shopPhoneNumberError}</p>}
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="type" className="block font-os mb-2 text-black-600">
+                                            <label htmlFor="type" className="block mb-2 font-os text-black-600">
                                                 Shop Type:
                                             </label>
                                             <select
@@ -195,19 +234,19 @@ export default function SellerRegisteration() {
                                                 value={shopType}
                                                 onChange={(e) => setShopType(e.target.value)}
                                                 placeholder="Gadgets"
-                                                className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                             >
                                                 <option value="Gadgets">Gadgets</option>
                                                 <option value="Fashion">Fashion</option>
                                                 <option value="Food">Food</option>
                                             </select>
-                                            {shopTypeError && <p className="font-os text-sm text-error-600 mt-2">{shopTypeError}</p>}
+                                            {shopTypeError && <p className="mt-2 font-os text-error-600 text-sm">{shopTypeError}</p>}
                                         </div>
 
 
                                         <div className="mt-8">
-                                            <p className="text-sm text-error-600 my-2 text-center">{generalError}</p>
-                                            <button onClick={handleShowBankingDetailsSection} disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-semibold text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
+                                            <p className="my-2 text-center text-error-600 text-sm">{generalError}</p>
+                                            <button onClick={handleShowBankingDetailsSection} disabled={loading} className="bg-primary-700 hover:bg-primary-800 mb-4 px-4 py-4 rounded-lg w-full font-os font-semibold text-[#FFF]">
                                                 {loading ? 'Just a minute...' : 'Next'}
                                             </button>
                                         </div>
@@ -217,7 +256,7 @@ export default function SellerRegisteration() {
                                         {/* Step two */}
                                         <div>
                                             <div className="mb-4">
-                                                <label htmlFor="bankName" className="block mb-2 font-os text-black-600 ">
+                                                <label htmlFor="bankName" className="block mb-2 font-os text-black-600">
                                                     Bank Name:
                                                 </label>
                                                 <select
@@ -226,16 +265,16 @@ export default function SellerRegisteration() {
                                                     value={bankName}
                                                     onChange={(e) => setBankName(e.target.value)}
                                                     placeholder="Fidelity Bank"
-                                                    className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                    className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                                 >
                                                     <option value="Fidelity Bank">Fidelity Bank</option>
                                                     <option value="Access Bank">Access Bank</option>
                                                     <option value="First Bank">First Bank</option>
                                                 </select>
-                                                {bankNameError && <p className=" font-os text-sm text-error-600 mt-2">{bankNameError}</p>}
+                                                {bankNameError && <p className="mt-2 font-os text-error-600 text-sm">{bankNameError}</p>}
                                             </div>
                                             <div className="mb-4">
-                                                <label htmlFor="bankSortCode" className="block font-os mb-2 text-black-600">
+                                                <label htmlFor="bankSortCode" className="block mb-2 font-os text-black-600">
                                                     Bank Sort Code:
                                                 </label>
                                                 <input
@@ -244,12 +283,12 @@ export default function SellerRegisteration() {
                                                     value={bankSortCode}
                                                     onChange={(e) => setBankSortCode(e.target.value)}
                                                     placeholder="185008"
-                                                    className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                    className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                                 />
-                                                {bankSortCodeError && <p className=" font-os text-sm text-error-600 mt-2">{bankSortCodeError}</p>}
+                                                {bankSortCodeError && <p className="mt-2 font-os text-error-600 text-sm">{bankSortCodeError}</p>}
                                             </div>
                                             <div className="mb-4">
-                                                <label htmlFor="accountNumber" className="block font-os mb-2 text-black-600">
+                                                <label htmlFor="accountNumber" className="block mb-2 font-os text-black-600">
                                                     Bank Account Number:
                                                 </label>
                                                 <input
@@ -258,12 +297,12 @@ export default function SellerRegisteration() {
                                                     value={accountNumber}
                                                     onChange={(e) => setAccountNumber(e.target.value)}
                                                     placeholder="45563562356"
-                                                    className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                    className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                                 />
-                                                {accountNumberError && <p className="font-os text-sm text-error-600 mt-2">{accountNumberError}</p>}
+                                                {accountNumberError && <p className="mt-2 font-os text-error-600 text-sm">{accountNumberError}</p>}
                                             </div>
                                             <div className="mb-4">
-                                                <label htmlFor="accountName" className="block font-os mb-2 text-black-600">
+                                                <label htmlFor="accountName" className="block mb-2 font-os text-black-600">
                                                     Bank Account Name:
                                                 </label>
                                                 <input
@@ -272,19 +311,21 @@ export default function SellerRegisteration() {
                                                     value={accountName}
                                                     onChange={(e) => setAccountName(e.target.value)}
                                                     placeholder="John Doe"
-                                                    className="w-full p-3 border text-black-500 border-lightgray-500 rounded-lg placeholder:text-black-100"
+                                                    className="p-3 border border-lightgray-500 rounded-lg w-full text-black-500 placeholder:text-black-100"
                                                 />
-                                                {accountNameError && <p className="font-os text-sm text-error-600 mt-2">{accountNameError}</p>}
+                                                {accountNameError && <p className="mt-2 font-os text-error-600 text-sm">{accountNameError}</p>}
                                             </div>
 
                                             <div className="mt-8">
-                                                <p className="text-sm text-error-600 my-2 text-center">{generalError}</p>
-                                                <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 font-os font-semibold text-[#FFF] py-4 px-4 mb-4 w-full rounded-lg">
+                                                <p className="my-2 text-center text-error-600 text-sm">{generalError}</p>
+                                                {registerError && <p className="my-2 text-center text-error-600 text-sm">{registerError}</p>}
+                                                {registerSuccess && <p className="my-2 text-center text-sm text-success-600">{registerSuccess}</p>}
+                                                <button type="submit" disabled={loading} className="bg-primary-700 hover:bg-primary-800 mb-4 px-4 py-4 rounded-lg w-full font-os font-semibold text-[#FFF]">
                                                     {loading ? 'Just a minute...' : 'Create Seller Account'}
                                                 </button>
                                             </div>
 
-                                            <p onClick={() => setShowBankingDetailsSection(false)} className='cursor-pointer text-center text-secondary-700 font-semibold'>Previous</p>
+                                            <p onClick={() => setShowBankingDetailsSection(false)} className='font-semibold text-center text-secondary-700 cursor-pointer'>Previous</p>
                                         </div>
 
                                     </div>
