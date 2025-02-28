@@ -54,7 +54,8 @@ function HomePage() {
     try {
       axios.get('https://campus-market-api.onrender.com/category/all')
         .then(response => {
-          setCategories(response.data.data);
+          console.log(response)
+          setCategories(response.data.transformedData);
           setIsLoading(false)
           // console.log(response.data.data);
         })
@@ -86,14 +87,14 @@ function HomePage() {
       <div className="mx-4 md:mx-14 mt-14">
         {/* Categories section */}
         <section>
-          <h2 className="font-os text-2xl text-black-600 font-semibold">Categories</h2>
+          <h2 className="font-os font-semibold text-2xl text-black-600">Categories</h2>
           <div className="">
             {isLoading ?
               <div className="w-full">
                 <ProdcutLoaderComponent />
               </div>
               :
-              <div className="flex overflow-x-auto space-x-5 md:grid md:grid-cols-5 md:space-x-0 mt-9">
+              <div className="flex space-x-5 md:space-x-0 md:grid md:grid-cols-5 mt-9 overflow-x-auto">
                 {
                   categories.length > 0 ?
 
@@ -113,12 +114,12 @@ function HomePage() {
 
         {/* Featured Ads */}
         <section className="my-20">
-          <h2 className="font-os text-2xl text-black-600 font-semibold">Featured Ads</h2>
-          <div className="mx-auto md:mx-0 grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
+          <h2 className="font-os font-semibold text-2xl text-black-600">Featured Ads</h2>
+          <div className="gap-x-5 gap-y-20 grid grid-cols-2 md:grid-cols-4 mx-auto md:mx-0 mt-9 w-fit">
             {featuredAds.map((ad, index) => (
               <div
                 key={index}
-                className="w-fit rounded-[10px] hover:bg-accent-200"
+                className="hover:bg-accent-200 rounded-[10px] w-fit"
                 onClick={() => navigate("/description")}
               >
                 <ProductItemComponent ad={ad} index={index} />

@@ -45,6 +45,7 @@ function FashionItems() {
       const data = await response.json();
       if (response.ok) {
         setProducts(data.data)
+        console.log(data)
         setIsLoading(false)
         return;
       }
@@ -75,25 +76,25 @@ function FashionItems() {
       <div>
         <AppNav />
       </div>
-      <div className="mx-4 md:mx-14 mt-14 ">
+      <div className="mx-4 md:mx-14 mt-14">
 
         {/* Fashion Items */}
         <section className="my-20">
-          <h2 className="font-os text-2xl text-black-600 pt-7 font-semibold">{selectedCategory.cateName}</h2>
+          <h2 className="pt-7 font-os font-semibold text-black-600 text-2xl">{selectedCategory.cateName}</h2>
           <div className="">
             {isLoading ?
               <ProdcutLoaderComponent />
               :
-              <div className="mx-auto md:mx-0 grid grid-cols-1 md:grid-cols-4 gap-x-5 gap-y-20 w-fit mt-9">
+              <div className="gap-x-5 gap-y-20 grid grid-cols-1 md:grid-cols-4 mx-auto md:mx-0 mt-9 w-fit">
                 {products.length > 0 ?
                   products.map((product, index) => (
                     <a onClick={(e) => handleSelectedProduct(e, product)} key={index}>
-                      <div key={index} className="w-fit rounded-[10px] hover:bg-accent-200">
+                      <div key={index} className="rounded-[10px] w-fit hover:bg-accent-200">
                         <div className="cursor-pointer">
                           <img src={product.images[0].image} alt={product.name} className="rounded-xl" />
                         </div>
-                        <p className="mt-4 text-sm text-left font-os font-medium text-black-500">{product.name}</p>
-                        <p className="mt-1 text-base text-left font-os font-bold text-black-600">{product.price ? '₦' + product.price : null}</p>
+                        <p className="mt-4 font-os font-medium text-black-500 text-sm text-left">{product.name}</p>
+                        <p className="mt-1 font-os font-bold text-black-600 text-base text-left">{product.price ? '₦' + product.price : null}</p>
                       </div>
                     </a>
                   ))
