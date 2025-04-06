@@ -119,7 +119,7 @@ function BuyerOrders() {
 
                                                 <div className="pt-3 w-full">
                                                     <button type="" onClick={() => handleUpdateOrder(element._id)} className="bg-primary-700 hover:bg-primary-800 mb-4 px-2 py-4 lg:py-2 rounded-lg w-full lg:w-64 font-os font-semibold text-[#FFF]">
-                                                        {"Received"}
+                                                        {"I have Received"}
                                                     </button>
                                                 </div>
                                             </div>
