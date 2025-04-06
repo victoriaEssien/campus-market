@@ -36,6 +36,7 @@ function AppNav() {
         { name: 'Search', href: '/search' },
         { name: 'Cart', href: '/my-cart' },
         { name: 'Saved', href: '/saved' },
+        { name: 'My Orders', href: '/orders' },
         { name: 'My Shop', href: '/my-shop' },
     ];
 
@@ -130,18 +131,18 @@ function AppNav() {
 
     return (
         <>
-            <div className='bg-white sticky w-full top-0 shadow'>
-                <header className='inset-x-0 top-0 z-50'>
-                    <nav className='flex items-center justify-between p-4 lg:px-12 border-b border-primary-50' aria-label='Global'>
+            <div className='top-0 sticky bg-white shadow w-full'>
+                <header className='top-0 z-50 inset-x-0'>
+                    <nav className='flex justify-between items-center p-4 lg:px-12 border-primary-50 border-b' aria-label='Global'>
                         <div className='flex lg:flex mr-8'>
                             <Link to='/home' className='-m-1.5 p-1.5'>
-                                <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
+                                <span className='font-os font-bold text-black-600 text-xl'>Campus Market</span>
                             </Link>
                         </div>
-                        <div className='flex lg:hidden'>
-                            <button type='button' className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700' onClick={() => setMobileMenuOpen(true)}>
+                        <div className='lg:hidden flex'>
+                            <button type='button' className='inline-flex justify-center items-center -m-2.5 p-2.5 rounded-md text-gray-700' onClick={() => setMobileMenuOpen(true)}>
                                 <span className='sr-only'>Open main menu</span>
-                                <Bars3Icon className='h-6 w-6' aria-hidden='true' />
+                                <Bars3Icon className='w-6 h-6' aria-hidden='true' />
                             </button>
                         </div>
                         <div className='hidden lg:flex lg:gap-x-6'>
@@ -152,17 +153,17 @@ function AppNav() {
                         <div className='hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-3'>
                             <Link
                                 to=""
-                                className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                className='bg-[#FFF] hover:bg-secondary-700 px-5 py-3 border border-secondary-700 rounded-lg font-os text-secondary-700 hover:text-white'
                                 onClick={(e) => handleClickOpen(userInfo, e)}
                             >
                                 Sell Item
                             </Link>
-                            <div className="h-8 border-l-2 border-lightgray-300" />
+                            <div className="border-l-2 border-lightgray-300 h-8" />
 
                             {showUploadProduct && <PopupMessageComponent isOpen={showUploadProduct} handleClose={handleCloseUploadProduct} />}
 
 
-                            {/* <div className="relative inline-block text-left">
+                            {/* <div className="inline-block relative text-left">
                                     <div>
                                         <button
                                             type="button"
@@ -170,21 +171,21 @@ function AppNav() {
                                             className="flex items-center space-x-2 focus:outline-none"
                                         >
                                         
-                                            <img src={defaultAvatar} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
-                                            <span className="text-black-600 text-base font-os font-medium">John Doe</span>
-                                            <ChevronDownIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
+                                            <img src={defaultAvatar} alt="Profile" className="rounded-full w-8 h-8 object-cover" />
+                                            <span className="font-os font-medium text-black-600 text-base">John Doe</span>
+                                            <ChevronDownIcon className="w-5 h-5 text-gray-500" aria-hidden="true" />
                                         </button>
                                     </div>
                                     {dropdownOpen && (
                                         <div
-                                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                            className="right-0 absolute bg-white ring-opacity-5 shadow-md mt-2 rounded-md focus:outline-none ring-1 ring-black w-48 origin-top-right"
                                             role="menu"
                                             aria-orientation="vertical"
                                             aria-labelledby="user-menu"
                                         >
                                             <div className="py-1">
-                                                <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
-                                                <button type='button' onClick={handleLogout} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
+                                                <Link to="/my-profile" className='block hover:bg-gray-50 px-4 py-2 font-os font-medium text-black-600 text-sm'>My Profile</Link>
+                                                <button type='button' onClick={handleLogout} className="block hover:bg-gray-50 px-4 py-2 w-full font-montserrat font-medium text-error-600 text-sm text-left" role="menuitem">
                                                     Sign out
                                                 </button>
                                             </div>
@@ -192,7 +193,7 @@ function AppNav() {
                                     )}
                             </div> */}
                             {userInfo && (
-                                <div className="relative inline-block text-left">
+                                <div className="inline-block relative text-left">
                                     <div>
                                         <button
                                             type="button"
@@ -200,21 +201,21 @@ function AppNav() {
                                             className="flex items-center space-x-2 focus:outline-none"
                                         >
 
-                                            <img src={userInfo.profilePicture} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
-                                            <span className="text-black-600 text-base font-os font-medium">{userInfo.username}</span>
-                                            <ChevronDownIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
+                                            <img src={userInfo.profilePicture} alt="Profile" className="rounded-full w-8 h-8 object-cover" />
+                                            <span className="font-os font-medium text-black-600 text-base">{userInfo.username}</span>
+                                            <ChevronDownIcon className="w-5 h-5 text-gray-500" aria-hidden="true" />
                                         </button>
                                     </div>
                                     {dropdownOpen && (
                                         <div
-                                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                            className="right-0 absolute bg-white ring-opacity-5 shadow-md mt-2 rounded-md focus:outline-none ring-1 ring-black w-48 origin-top-right"
                                             role="menu"
                                             aria-orientation="vertical"
                                             aria-labelledby="user-menu"
                                         >
                                             <div className="py-1">
-                                                <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
-                                                <button type='button' onClick={handleModalOpen} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
+                                                <Link to="/my-profile" className='block hover:bg-gray-50 px-4 py-2 font-os font-medium text-black-600 text-sm'>My Profile</Link>
+                                                <button type='button' onClick={handleModalOpen} className="block hover:bg-gray-50 px-4 py-2 w-full font-montserrat font-medium text-error-600 text-sm text-left" role="menuitem">
                                                     Sign out
                                                 </button>
                                             </div>
@@ -225,18 +226,18 @@ function AppNav() {
                         </div>
                     </nav>
                     <Dialogger as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-                        <div className='fixed inset-0 z-50' />
-                        <Dialogger.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white'>
-                            <div className="flex items-center justify-between">
+                        <div className='z-50 fixed inset-0' />
+                        <Dialogger.Panel className='right-0 z-50 fixed inset-y-0 bg-white w-full overflow-y-auto'>
+                            <div className="flex justify-between items-center">
                                 <a href="#" className='-m-1.5 p-5'>
-                                    <span className='font-os font-bold text-xl text-black-600'>Campus Market</span>
+                                    <span className='font-os font-bold text-black-600 text-xl'>Campus Market</span>
                                 </a>
-                                <button type='button' className='-m-2.5 rounded-md p-7 text-black-700' onClick={() => setMobileMenuOpen(false)}>
+                                <button type='button' className='-m-2.5 p-7 rounded-md text-black-700' onClick={() => setMobileMenuOpen(false)}>
                                     <span className='sr-only'>Close menu</span>
-                                    <XMarkIcon className='h-6 w-6' aria-hidden='true' />
+                                    <XMarkIcon className='w-6 h-6' aria-hidden='true' />
                                 </button>
                             </div>
-                            <div className='mt-4 flow-root'>
+                            <div className='flow-root mt-4'>
                                 <div className='-m-y-6 divide-y divide-gray-500/10'>
                                     <div className='space-y-2'>
                                         {navigation.map((item) => (
@@ -245,17 +246,17 @@ function AppNav() {
                                         ))}
                                     </div>
 
-                                    <div className='flex flex-col gap-y-8 py-6 px-4 text-center'>
+                                    <div className='flex flex-col gap-y-8 px-4 py-6 text-center'>
                                         <Link
                                             to="#"
-                                            className='bg-[#FFF] border border-secondary-700 text-secondary-700 font-os rounded-lg px-5 py-3 hover:bg-secondary-700 hover:text-white'
+                                            className='bg-[#FFF] hover:bg-secondary-700 px-5 py-3 border border-secondary-700 rounded-lg font-os text-secondary-700 hover:text-white'
                                             onClick={(e) => handleClickOpen(userInfo, e)}
                                         >
                                             Sell Item
                                         </Link>
 
                                         {userInfo && (
-                                            <div className="relative inline-block mx-auto text-left w-fit">
+                                            <div className="inline-block relative mx-auto w-fit text-left">
                                                 <div>
                                                     <button
                                                         type="button"
@@ -263,22 +264,22 @@ function AppNav() {
                                                         className="flex items-center space-x-2 focus:outline-none"
                                                     >
                                                         {userInfo.profilePicture && (
-                                                            <img src={userInfo.profilePicture} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
+                                                            <img src={userInfo.profilePicture} alt="Profile" className="rounded-full w-8 h-8 object-cover" />
                                                         )}
-                                                        <span className="text-black-600 text-base font-os font-medium">{userInfo.username}</span>
-                                                        <ChevronDownIcon className="h-5 w-5 text-black-500" aria-hidden="true" />
+                                                        <span className="font-os font-medium text-black-600 text-base">{userInfo.username}</span>
+                                                        <ChevronDownIcon className="w-5 h-5 text-black-500" aria-hidden="true" />
                                                     </button>
                                                 </div>
                                                 {dropdownOpen && (
                                                     <div
-                                                        className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                        className="right-0 absolute bg-white ring-opacity-5 shadow-lg mt-2 rounded-md focus:outline-none ring-1 ring-black w-48 origin-top-right"
                                                         role="menu"
                                                         aria-orientation="vertical"
                                                         aria-labelledby="user-menu"
                                                     >
                                                         <div className="py-1">
-                                                            <Link to="/my-profile" className='block px-4 py-2 font-os text-sm font-medium text-black-600 hover:bg-gray-50'>My Profile</Link>
-                                                            <button type='button' onClick={handleModalOpen} className="block px-4 py-2 font-montserrat text-sm font-medium text-error-600 hover:bg-gray-50 w-full text-left" role="menuitem">
+                                                            <Link to="/my-profile" className='block hover:bg-gray-50 px-4 py-2 font-os font-medium text-black-600 text-sm'>My Profile</Link>
+                                                            <button type='button' onClick={handleModalOpen} className="block hover:bg-gray-50 px-4 py-2 w-full font-montserrat font-medium text-error-600 text-sm text-left" role="menuitem">
                                                                 Sign out
                                                             </button>
                                                         </div>
@@ -295,7 +296,7 @@ function AppNav() {
 
                 {/* Modal */}
                 <Transition appear show={isModalOpen} as={Fragment}>
-                    <Dialogger as="div" className="relative z-50" onClose={handleModalClose}>
+                    <Dialogger as="div" className="z-50 relative" onClose={handleModalClose}>
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -309,7 +310,7 @@ function AppNav() {
                         </Transition.Child>
 
                         <div className="fixed inset-0 overflow-y-auto">
-                            <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <div className="flex justify-center items-center p-4 min-h-full text-center">
                                 <Transition.Child
                                     as={Fragment}
                                     enter="ease-out duration-300"
@@ -319,32 +320,32 @@ function AppNav() {
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95"
                                 >
-                                    <Dialogger.Panel className="w-full max-w-md transform overflow-hidden bg-lightgray-100 rounded-lg p-6 text-left align-middle shadow-xl transition-all">
+                                    <Dialogger.Panel className="bg-lightgray-100 shadow-xl p-6 rounded-lg w-full max-w-md overflow-hidden text-left align-middle transition-all transform">
                                         <div className="flex justify-end">
-                                            <button className="rounded-full p-1 hover:bg-gray-200" onClick={handleModalClose}>
-                                                <XMarkIcon className="h-6 w-6 text-primary-500" />
+                                            <button className="hover:bg-gray-200 p-1 rounded-full" onClick={handleModalClose}>
+                                                <XMarkIcon className="w-6 h-6 text-primary-500" />
                                             </button>
                                         </div>
-                                        <Dialogger.Title as="h3" className="text-2xl font-lora font-bold leading-6 text-black-600 mt-4">
+                                        <Dialogger.Title as="h3" className="mt-4 font-lora font-bold text-black-600 text-2xl leading-6">
                                             Log out of Campus Market?
                                         </Dialogger.Title>
                                         <div className="mt-3">
-                                            <p className="text-[15px] w-11/12 md:w-10/12 text-black-400 leading-normal md:leading-relaxed">
+                                            <p className="w-11/12 md:w-10/12 text-[15px] text-black-400 leading-normal md:leading-relaxed">
                                                 You can always log back in at any time.
                                             </p>
                                         </div>
 
-                                        <div className="mt-10 flex flex-col gap-y-4 md:flex-row md:justify-end md:space-x-4">
+                                        <div className="flex md:flex-row flex-col md:justify-end gap-y-4 md:space-x-4 mt-10">
                                             <button
                                                 type="button"
-                                                className="inline-flex justify-center rounded-md border border-primary-600 bg-lightgray-100 px-8 py-3 text-sm font-os font-medium text-primary-600"
+                                                className="inline-flex justify-center bg-lightgray-100 px-8 py-3 border border-primary-600 rounded-md font-os font-medium text-primary-600 text-sm"
                                                 onClick={handleModalClose}
                                             >
                                                 Cancel
                                             </button>
                                             <button
                                                 type="button"
-                                                className="inline-flex justify-center rounded-md bg-primary-600 px-8 py-3 text-sm font-os font-medium text-lightgray-100"
+                                                className="inline-flex justify-center bg-primary-600 px-8 py-3 rounded-md font-os font-medium text-lightgray-100 text-sm"
                                                 onClick={handleSignOut}
                                             >
                                                 Log Out

@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import ProtectedRoute from "../components/ProtectedRoute"
 import { HeroSection, SignUp, Login, VerifyEmail, ResetPassword, HomePage, SearchPage, CartPage, SavedPage, ProductDescription, Profile, FashionItems, SellerRegisteration, MyShop } from "./index"
+import BuyerOrders from "./BuyerOrders"
 
 
 
@@ -31,6 +32,8 @@ function LandingPage() {
                         {/* Seller Registration */}
                         <Route path="/seller-registration" element={<ProtectedRoute><SellerRegisteration /></ProtectedRoute>} />
                         <Route path="/my-shop" element={<ProtectedRoute><MyShop /></ProtectedRoute>} />
+                        {/*Buyer Order Page */}
+                        <Route path="/orders" element={<ProtectedRoute><BuyerOrders /></ProtectedRoute>} />
                     </Routes>
                 </div>
             </Router>
