@@ -13,7 +13,7 @@ const ActionConfirmationMessage = ({ message, show, onClose, colour }) => {
   if (!show) return null;
 
   return (
-    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down`}>
+    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-down`}>
       {message}
     </div>
   );
